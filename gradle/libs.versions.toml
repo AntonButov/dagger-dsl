@@ -1,0 +1,17 @@
+[versions]
+kotlin = "1.9.25"
+ksp = "1.9.25-1.0.20"
+kotest = "5.9.1"
+compilation = "1.0.0"
+
+[libraries]
+kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest"}
+kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+compilation = { module = "com.github.antonbutov:compilation", version.ref = "compilation" }
+
+[bundles]
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+
+
