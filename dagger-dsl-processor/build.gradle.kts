@@ -6,13 +6,11 @@ group = "com.dagger.dsl"
 version = "1.0-SNAPSHOT"
 
 dependencies {
-    //testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    //testImplementation("org.junit.jupiter:junit-jupiter")
+    implementation(project(":dagger-dsl-core"))
+    implementation(libs.ksp)
+    implementation(libs.compile.embedded)
+    implementation(kotlin("stdlib"))
 
     testImplementation(libs.kotest.runner)
-    testImplementation(libs.compilation)
-}
-
-tasks.test {
-    useJUnitPlatform()
+    api(libs.compilation) // todo rework to testImplementation
 }
