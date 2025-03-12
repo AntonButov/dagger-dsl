@@ -17,3 +17,5 @@ dependencyResolutionManagement {
 }
 
 include("dagger-dsl-processor")
+include("samples:single-component")
+include("dagger-dsl-core")

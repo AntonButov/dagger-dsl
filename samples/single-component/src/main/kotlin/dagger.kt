@@ -1,0 +1,6 @@
+
+
+@DaggerDsl
+fun anyNameFunction() {
+    component()
+}
