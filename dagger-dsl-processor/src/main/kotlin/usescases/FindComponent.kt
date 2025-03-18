@@ -1,6 +1,6 @@
 package usescases
 
-import DaggerDsl
+import dagger.dsl.core.DaggerDsl
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 
