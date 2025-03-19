@@ -2,7 +2,7 @@
 kotlin = "1.9.25"
 ksp = "1.9.25-1.0.20"
 kotest = "5.9.1"
-compilation = "1.0.0"
+compilation = "2.0.0"
 ktlint = "12.2.0"
 
 [libraries]

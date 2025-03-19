@@ -9,19 +9,36 @@ import org.jetbrains.kotlin.incremental.classpathAsList
 import java.io.File
 
 interface Compiler {
-    fun compile(
-        sourceCode: String,
-        outputDir: String,
-    ): File
+    fun compile(sourceCode: String): File
+
+    fun compile(sourceFile: File): File
 }
 
+private const val OUTPUT_DIR_NAME = "build/tmp"
+
 class CompilerImpl : Compiler {
-    override fun compile(
-        sourceCode: String,
-        outPutDirPath: String,
-    ): File {
-        val outPutFile = File(outPutDirPath).apply { mkdir() }
+    private val outPutFile by lazy { File(OUTPUT_DIR_NAME).apply { mkdir() } }
+
+    override fun compile(sourceCode: String): File {
         val sourceFile = File(outPutFile, "Generated.kt").apply { writeText(sourceCode) }
+        return compile(sourceFile)
+    }
+
+    override fun compile(sourceFile: File): File {
+        if (sourceFile.exists()) {
+            return compile(sourceFile, outPutFile)
+        }
+        val sourceAddedPathFile = File(System.getProperty("user.dir"), sourceFile.path)
+        if (sourceAddedPathFile.exists()) {
+            return compile(sourceAddedPathFile, outPutFile)
+        }
+        error("Source file $sourceAddedPathFile does not exist!")
+    }
+
+    private fun compile(
+        sourceFile: File,
+        outPutFile: File,
+    ): File {
         val compiler = K2JVMCompiler()
 
         val args =

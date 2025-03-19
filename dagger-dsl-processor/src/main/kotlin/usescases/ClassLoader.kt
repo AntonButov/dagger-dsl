@@ -9,6 +9,12 @@ interface ClassLoader {
         className: String,
         methodName: String,
     ): Any
+
+    fun runStaticMethod(
+        clazzFile: File,
+        className: String,
+        methodName: String,
+    ): Any
 }
 
 class ClassLoaderImpl : ClassLoader {
@@ -16,11 +22,34 @@ class ClassLoaderImpl : ClassLoader {
         classFile: File,
         className: String,
         methodName: String,
+    ): Any = runMethod(classFile, className, methodName, false)
+
+    override fun runStaticMethod(
+        clazzFile: File,
+        className: String,
+        methodName: String,
+    ): Any = runMethod(clazzFile, className, methodName, true)
+
+    private fun runMethod(
+        classFile: File,
+        className: String,
+        methodName: String,
+        isStatic: Boolean,
     ): Any {
-        val classLoader = URLClassLoader(arrayOf(classFile.toURI().toURL()), null)
+        val stdLib = File(System.getProperty("user.dir"), "build/libs/kotlin-stdlib-1.9.25.jar")
+        val core = File(System.getProperty("user.dir"), "dagger-dsl-core.jar")
+        val classLoader =
+            URLClassLoader(
+                arrayOf(
+                    classFile.toURI().toURL(),
+                    stdLib.toURI().toURL(),
+                    core.toURI().toURL(),
+                ),
+                java.lang.ClassLoader.getSystemClassLoader(),
+            )
 
         val clazz = classLoader.loadClass(className)
-        val instance = clazz.getDeclaredConstructor().newInstance()
+        val instance = isStatic.takeIf { it.not() }?.let { clazz.getDeclaredConstructor().newInstance() }
 
         val method = clazz.getMethod(methodName)
         val result = method.invoke(instance)
