@@ -10,9 +10,14 @@ class FindDaggerDslMainFunctionTest : StringSpec({
     "component should be found" {
         val diFunction =
             """
-            @DaggerDsl    
+            @DaggerDsl
             fun anyNameFunction() {
-                component()
+                component {
+                }
+            }
+            
+            fun otherFun() {
+            
             }
             """.trimIndent()
 
