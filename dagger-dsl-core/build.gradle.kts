@@ -7,6 +7,7 @@ version = "unspecified"
 
 dependencies {
     implementation(kotlin("stdlib"))
+    testImplementation(libs.kotest.runner)
 }
 
 tasks.test {
