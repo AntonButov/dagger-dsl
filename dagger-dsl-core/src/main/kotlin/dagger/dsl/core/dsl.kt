@@ -6,7 +6,7 @@ fun component(dsl: ComponentBuilder.() -> Unit): Component {
 
 class ComponentBuilder {
     private var isSingleton = false
-    private var name: String? = null
+    var name: String? = null
     private var modules: MutableList<Module> = mutableListOf()
 
     fun singleton() {
@@ -30,7 +30,7 @@ class ModuleDsl() {
     private var name: String? = null
     val binds: MutableList<Pair<Class<*>, Class<*>>> = mutableListOf()
 
-    inline fun <reified T> binds(classImpl: Class<out T>) {
+    inline fun <reified T> bind(classImpl: Class<out T>) {
         binds.add(T::class.java to classImpl)
     }
 

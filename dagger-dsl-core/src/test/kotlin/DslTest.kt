@@ -19,7 +19,7 @@ class DslTest : StringSpec({
         val component =
             component {
                 module {
-                    binds<Service>(ServiceImpl::class.java)
+                    bind<Service>(ServiceImpl::class.java)
                 }
             }
 

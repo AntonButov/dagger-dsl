@@ -18,7 +18,7 @@ class ClassLoaderTest : StringSpec({
         """.trimIndent()
 
     "base test" {
-        val classFile = compiler.compile(code, "build/tmp")
+        val classFile = compiler.compile(code)
         val result = classLoader.runMethod(classFile, "SomeClass", "someMethod") as String
         result shouldBeEqual "some string"
     }
