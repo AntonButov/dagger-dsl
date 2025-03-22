@@ -5,6 +5,7 @@ import java.nio.file.Paths
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.ksp)
 }
 
 group = "com.dagger.dsl"
@@ -12,9 +13,13 @@ version = "1.0-SNAPSHOT"
 
 dependencies {
     implementation(project(":dagger-dsl-core"))
+    ksp(libs.code.factory)
     implementation(libs.ksp)
     implementation(libs.compile.embedded)
     implementation(kotlin("stdlib"))
+    implementation(libs.kotlin.poet)
+    implementation(libs.dagger)
+    implementation(libs.mockk)
 
     testImplementation(libs.kotest.runner)
     api(libs.compilation) // todo rework to testImplementation
