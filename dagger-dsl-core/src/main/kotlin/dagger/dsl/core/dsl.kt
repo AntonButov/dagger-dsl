@@ -9,6 +9,11 @@ class ComponentBuilder {
     var name: String = "component"
     private var modules: MutableList<Module> = mutableListOf()
 
+    /**
+     * Marks the component as a singleton.
+     *
+     * This ensures that only one instance of the component is created.
+     */
     fun singleton() {
         isSingleton = true
     }
