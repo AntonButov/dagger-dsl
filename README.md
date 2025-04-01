@@ -21,3 +21,15 @@ dependencies {
     ksp("com.github.antonbutov:dagger-dsl-processor:<$last-version>")
 }
 ```
+## How it works
+You write
+```
+component {
+    
+}
+```
+The processor generates:
+```
+@Component
+interface component
+```
