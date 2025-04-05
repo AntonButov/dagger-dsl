@@ -1,5 +1,6 @@
-package usescases
+package usecases
 
+import processor.Processor
 import java.io.File
 import java.net.URLClassLoader
 
@@ -19,16 +20,16 @@ interface ClassLoader {
 
 class ClassLoaderImpl : ClassLoader {
     override fun runMethod(
-        classFile: File,
+        jarFile: File,
         className: String,
         methodName: String,
-    ): Any = runMethod(classFile, className, methodName, false)
+    ): Any = runMethod(jarFile, className, methodName, false)
 
     override fun runStaticMethod(
-        clazzFile: File,
+        jarFile: File,
         className: String,
         methodName: String,
-    ): Any = runMethod(clazzFile, className, methodName, true)
+    ): Any = runMethod(jarFile, className, methodName, true)
 
     private fun runMethod(
         classFile: File,
@@ -36,16 +37,12 @@ class ClassLoaderImpl : ClassLoader {
         methodName: String,
         isStatic: Boolean,
     ): Any {
-        val stdLib = File(System.getProperty("user.dir"), "build/libs/kotlin-stdlib-1.9.25.jar")
-        val core = File(System.getProperty("user.dir"), "dagger-dsl-core.jar")
         val classLoader =
             URLClassLoader(
                 arrayOf(
                     classFile.toURI().toURL(),
-                    stdLib.toURI().toURL(),
-                    core.toURI().toURL(),
                 ),
-                java.lang.ClassLoader.getSystemClassLoader(),
+                Processor::class.java.classLoader,
             )
 
         val clazz = classLoader.loadClass(className)
@@ -54,7 +51,7 @@ class ClassLoaderImpl : ClassLoader {
         val method = clazz.getMethod(methodName)
         val result = method.invoke(instance)
 
-        classLoader.close()
+        //   classLoader.close()
 
         return result
     }

@@ -1,16 +1,25 @@
-package usescases.component
+package usecases.component
 
 import compile
+import io.kotest.common.runBlocking
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import usescases.CompilerImpl
-import usescases.findDaggerDslMainFunction
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.mockk.mockk
+import jardownloader.JarDownloaderImpl
+import jardownloader.SystemPropertiesProviderImpl
+import usecases.CompilerImpl
+import usecases.findDaggerDslMainFunction
 import java.io.File
 
 class CompilerTest : StringSpec({
 
-    val compiler = CompilerImpl()
+    val systemPropertiesProvider = SystemPropertiesProviderImpl()
+    val okHttpClient = HttpClient(CIO)
+    val jarDownloader = JarDownloaderImpl(mockk(relaxed = true), systemPropertiesProvider, okHttpClient)
+    val compiler = CompilerImpl(jarDownloader, mockk(relaxed = true))
 
     "compile should return a file with the generated code" {
         val sourceCode =
@@ -19,10 +28,10 @@ class CompilerTest : StringSpec({
             import dagger.dsl.core.component
                 
             @DaggerDsl    
-            fun anyNameFunction() {
+            fun anyNameFunction() =
                component {
                }
-            }
+            
             """.trimIndent()
 
         val generatedFile = compiler.compile(sourceCode)
@@ -45,7 +54,7 @@ class CompilerTest : StringSpec({
         sourceFile compile { resolver ->
             val dslFunction = resolver.findDaggerDslMainFunction()
 
-            val generatedFile = compiler.compile(File(dslFunction.containingFile!!.filePath))
+            val generatedFile = runBlocking { compiler.compile(File(dslFunction!!.containingFile.filePath)) }
             generatedFile.path shouldContain "build/tmp"
         }
     }

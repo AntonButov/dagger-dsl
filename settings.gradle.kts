@@ -13,9 +13,9 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
     }
-
 }
 
 include("dagger-dsl-processor")
-include("samples:single-component")
+include("samples:coffee")
 include("dagger-dsl-core")
+include("integration-tests")

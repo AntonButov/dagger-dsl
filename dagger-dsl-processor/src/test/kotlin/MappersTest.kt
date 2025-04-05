@@ -1,4 +1,4 @@
-package usescases.component
+package usecases.component
 
 import ComponentToFileSpecMapper
 import ComponentToFileSpecMapperImpl
@@ -17,7 +17,7 @@ class MappersTest : StringSpec({
         fileSpec.toString() shouldBe
             """
                 |@dagger.Component
-                |public interface component
+                |public interface Component
                 |
             """.trimMargin()
     }

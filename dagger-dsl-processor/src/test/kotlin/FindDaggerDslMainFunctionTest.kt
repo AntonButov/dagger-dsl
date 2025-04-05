@@ -1,9 +1,9 @@
-package usescases.component
+package usecases.component
 
 import compile
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equals.shouldBeEqual
-import usescases.findDaggerDslMainFunction
+import usecases.findDaggerDslMainFunction
 
 class FindDaggerDslMainFunctionTest : StringSpec({
 
@@ -23,7 +23,7 @@ class FindDaggerDslMainFunctionTest : StringSpec({
 
         diFunction compile { resolver ->
             val result = resolver.findDaggerDslMainFunction()
-            result.toString() shouldBeEqual "anyNameFunction"
+            result!!.nameFun shouldBeEqual "anyNameFunction"
         }
     }
 })
