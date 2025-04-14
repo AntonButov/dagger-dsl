@@ -24,12 +24,17 @@ dependencies {
 ## How it works
 You write
 ```
-component {
-    
-}
+@DaggerDsl
+fun anyNameFunction() =
+    component {
+        name = "CoffeeShop"
+    }
 ```
 The processor generates:
 ```
+import dagger.Component
+
 @Component
-interface component
+public interface CoffeeShop
 ```
+Dagger takes these files and works.
