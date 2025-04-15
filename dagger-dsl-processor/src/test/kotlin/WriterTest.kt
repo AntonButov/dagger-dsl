@@ -2,10 +2,10 @@ package usecases.component
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.symbol.KSFile
-import com.squareup.kotlinpoet.TypeSpec
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.mockk
 import io.mockk.verify
+import transformers.SpecsForWriter
 import usecases.Writer
 import usecases.WriterImpl
 
@@ -21,7 +21,7 @@ class WriterTest : StringSpec({
 
     "should create a new file with the correct content" {
         val file = mockk<KSFile>(relaxed = true)
-        val component = mockk<TypeSpec>(relaxed = true)
+        val component = mockk<SpecsForWriter>(relaxed = true)
         writer.write(file, component)
 
         verify {
