@@ -1,4 +1,5 @@
 [versions]
+core = "0.1.2"
 kotlin = "1.9.25"
 ksp = "1.9.25-1.0.20"
 kotest = "5.9.1"
@@ -8,22 +9,36 @@ kotlinPoet = "1.18.0"
 code-factory = "1.0.1"
 dagger = "2.55"
 mockk = "1.13.17"
+gradle-tester = "1.1.0"
+koin = "3.5.6"
+vanniktech="0.31.0"
+ktor = "2.3.7"
+kapt = "2.1.20"
 
 [libraries]
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest"}
 kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 compilation = { module = "com.github.antonbutov:compilation", version.ref = "compilation" }
+gradle-tester = { module = "com.github.antonbutov:gradle-tester", version.ref = "gradle-tester" }
 ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 compile-embedded = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin"}
 kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
+kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinPoet" }
 code-factory = { module = "io.github.antonbutov:code-factory-processor", version.ref = "code-factory" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 
 [bundles]
+ktor = ["ktor-client-core", "ktor-client-cio"]
+ktor-test = ["ktor-client-core", "ktor-client-cio", "ktor-client-mock"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-
+vanniktech = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }

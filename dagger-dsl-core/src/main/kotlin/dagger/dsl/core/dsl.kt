@@ -6,7 +6,7 @@ fun component(dsl: ComponentBuilder.() -> Unit): Component {
 
 class ComponentBuilder {
     private var isSingleton = false
-    var name: String = "component"
+    var name: String = "Component"
     private var modules: MutableList<Module> = mutableListOf()
 
     fun singleton() {

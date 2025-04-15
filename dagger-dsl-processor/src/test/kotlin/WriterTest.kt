@@ -1,11 +1,13 @@
-package usescases.component
+package usecases.component
 
 import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.symbol.KSFile
+import com.squareup.kotlinpoet.TypeSpec
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.mockk
 import io.mockk.verify
-import usescases.Writer
-import usescases.WriterImpl
+import usecases.Writer
+import usecases.WriterImpl
 
 class WriterTest : StringSpec({
 
@@ -18,16 +20,15 @@ class WriterTest : StringSpec({
     }
 
     "should create a new file with the correct content" {
-        val packageName = "com.example"
-        val fileName = "Di.kt"
-        val component = "MyComponent"
-        writer.write(packageName, fileName, component)
+        val file = mockk<KSFile>(relaxed = true)
+        val component = mockk<TypeSpec>(relaxed = true)
+        writer.write(file, component)
 
         verify {
             codeGenerator.createNewFile(
                 dependencies = any(),
-                packageName = packageName,
-                fileName = "Di.kt",
+                packageName = any(),
+                fileName = any(),
             )
         }
     }

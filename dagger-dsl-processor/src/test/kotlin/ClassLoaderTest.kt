@@ -1,13 +1,21 @@
-package usescases.component
+package usecases.component
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equals.shouldBeEqual
-import usescases.ClassLoaderImpl
-import usescases.CompilerImpl
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.mockk.mockk
+import jardownloader.JarDownloaderImpl
+import jardownloader.SystemPropertiesProviderImpl
+import usecases.ClassLoaderImpl
+import usecases.CompilerImpl
 
 class ClassLoaderTest : StringSpec({
+    val systemPropertiesProvider = SystemPropertiesProviderImpl()
+    val okHttpClient = HttpClient(CIO)
+    val jarDownloader = JarDownloaderImpl(mockk(relaxed = true), systemPropertiesProvider, okHttpClient)
     val classLoader = ClassLoaderImpl()
-    val compiler = CompilerImpl()
+    val compiler = CompilerImpl(jarDownloader, mockk(relaxed = true))
     val code =
         """
         class SomeClass {

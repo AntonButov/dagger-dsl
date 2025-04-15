@@ -1,5 +1,7 @@
-package usescases
+package usecases
 
+import com.google.devtools.ksp.processing.KSPLogger
+import jardownloader.JarDownloader
 import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
 import org.jetbrains.kotlin.cli.common.messages.MessageRenderer
 import org.jetbrains.kotlin.cli.common.messages.PrintingMessageCollector
@@ -7,24 +9,29 @@ import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 import org.jetbrains.kotlin.config.Services
 import org.jetbrains.kotlin.incremental.classpathAsList
 import java.io.File
+import java.io.IOException
 
 interface Compiler {
-    fun compile(sourceCode: String): File
-
-    fun compile(sourceFile: File): File
+    @Throws(IOException::class)
+    suspend fun compile(sourceCode: String): File
+    @Throws(IOException::class)
+    suspend fun compile(sourceFile: File): File
 }
 
 private const val OUTPUT_DIR_NAME = "build/tmp"
 
-class CompilerImpl : Compiler {
+class CompilerImpl(
+    private val jarDownloader: JarDownloader,
+    private val logger: KSPLogger,
+) : Compiler {
     private val outPutFile by lazy { File(OUTPUT_DIR_NAME).apply { mkdir() } }
-
-    override fun compile(sourceCode: String): File {
+    @Throws(IOException::class)
+    override suspend fun compile(sourceCode: String): File {
         val sourceFile = File(outPutFile, "Generated.kt").apply { writeText(sourceCode) }
         return compile(sourceFile)
     }
-
-    override fun compile(sourceFile: File): File {
+    @Throws(IOException::class)
+    override suspend fun compile(sourceFile: File): File {
         if (sourceFile.exists()) {
             return compile(sourceFile, outPutFile)
         }
@@ -34,24 +41,27 @@ class CompilerImpl : Compiler {
         }
         error("Source file $sourceAddedPathFile does not exist!")
     }
-
-    private fun compile(
+    @Throws(IOException::class)
+    private suspend fun compile(
         sourceFile: File,
         outPutFile: File,
     ): File {
         val compiler = K2JVMCompiler()
 
+        val daggerDslCoreJar = jarDownloader.downloadCore()
+        val stdLibJar = jarDownloader.downloadStdLib()
+
         val args =
             K2JVMCompilerArguments().apply {
                 freeArgs = listOf(sourceFile.absolutePath)
                 destination = outPutFile.absolutePath
-                classpathAsList = listOf(File("dagger-dsl-core.jar"), File("build/libs/kotlin-stdlib-1.9.25.jar"))
+                classpathAsList = listOf(daggerDslCoreJar, stdLibJar)
             }
 
         val compilerMessageCollector =
             PrintingMessageCollector(
                 System.out,
-                MessageRenderer.GRADLE_STYLE,
+                MessageRenderer.WITHOUT_PATHS,
                 true,
             )
 
