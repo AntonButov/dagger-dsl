@@ -26,15 +26,36 @@ You write
 ```
 @DaggerDsl
 fun anyNameFunction() =
-    component {
-        name = "CoffeeShop"
+    componentSingleton<CoffeeShop> {
+        moduleAbstract {
+            bind<Pump, Thermosiphon>()
+        }
+        moduleAbstract {
+            bindSingleton<Heater, ElectricHeater>()
+        }
     }
 ```
 The processor generates:
 ```
-import dagger.Component
+@Component(modules = [ModulePump::class, ModuleHeater::class])
+@Singleton
+public interface CoffeeShopDsl {
+    public fun maker(): CoffeeMaker
 
-@Component
-public interface CoffeeShop
+    public fun logger(): CoffeeLogger
+}
+
+@Module
+public abstract class ModuleHeater {
+    @Binds
+    @Singleton
+    public abstract fun bindHeater(`impl`: ElectricHeater): Heater
+}
+
+@Module
+public abstract class ModulePump {
+    @Binds
+    public abstract fun bindPump(`impl`: Thermosiphon): Pump
+}
 ```
 Dagger takes these files and works.
