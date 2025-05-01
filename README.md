@@ -59,3 +59,20 @@ public abstract class ModulePump {
 }
 ```
 Dagger takes these files and works.
+
+## 🤝 Contributing
+Thanks for checking out Dagger DSL! Contributions of all kinds are welcome — whether it’s code, ideas, docs, or just feedback.
+
+Quick start:
+- Fork & clone the repo
+
+- Create a branch: git checkout -b feature/your-feature
+
+- Make your changes
+
+- Run ./gradlew build to test
+
+- Open a Pull Request — I’ll review it asap (with a little help from CodeRabbit 🐰)
+
+Feel free to open an Issue if you’re not sure where to start.
+Let’s make this DSL awesome together!
