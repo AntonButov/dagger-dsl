@@ -6,23 +6,55 @@ import com.google.devtools.ksp.symbol.KSFile
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ksp.writeTo
+import transformers.SpecsForWriter
 
 interface Writer {
     fun write(
         file: KSFile,
-        daggerCode: TypeSpec,
+        specs: SpecsForWriter,
     )
 }
 
 class WriterImpl(private val codeGenerator: CodeGenerator) : Writer {
     override fun write(
         file: KSFile,
-        daggerCode: TypeSpec,
+        specs: SpecsForWriter,
+    ) {
+        writeComponent(codeGenerator, specs.componentSpec, file)
+        specs.moduleSpec.forEach {
+            writeModule(
+                codeGenerator = codeGenerator,
+                spec = it,
+                file = file,
+            )
+        }
+    }
+
+    private fun writeModule(
+        codeGenerator: CodeGenerator,
+        spec: TypeSpec,
+        file: KSFile,
+    ) {
+        FileSpec.builder(
+            packageName = file.packageName.asString(),
+            fileName = "${spec.name}.kt",
+        ).addType(spec)
+            .build()
+            .writeTo(
+                codeGenerator = codeGenerator,
+                dependencies = Dependencies(aggregating = true, sources = arrayOf(file)),
+            )
+    }
+
+    private fun writeComponent(
+        codeGenerator: CodeGenerator,
+        spec: TypeSpec,
+        file: KSFile,
     ) {
         FileSpec.builder(
             packageName = file.packageName.asString(),
             fileName = file.fileName.split(".").first(),
-        ).addType(daggerCode)
+        ).addType(spec)
             .build()
             .writeTo(
                 codeGenerator = codeGenerator,

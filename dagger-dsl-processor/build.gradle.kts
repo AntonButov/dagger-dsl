@@ -18,11 +18,13 @@ dependencies {
     annotationProcessor(libs.dagger.compiler)
     implementation(libs.koin)
     implementation(libs.mockk)
-    implementation(libs.bundles.ktor)
 
-    testImplementation(libs.bundles.ktor.test)
     testImplementation(libs.kotest.runner)
-    api(libs.compilation) // todo rework to testImplementation
+    api(libs.compilation) // todo https://github.com/AntonButov/dagger-dsl/issues/8
+}
+
+tasks.test {
+    dependsOn(":dagger-dsl-core:build")
 }
 
 tasks.test {

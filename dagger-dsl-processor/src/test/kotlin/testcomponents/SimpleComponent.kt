@@ -1,0 +1,3 @@
+package testcomponents
+
+interface SimpleComponent

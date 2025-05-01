@@ -11,6 +11,7 @@ version = libs.versions.core.get()
 dependencies {
     implementation(kotlin("stdlib"))
     testImplementation(libs.kotest.runner)
+    testImplementation(libs.dagger)
 }
 
 mavenPublishing {

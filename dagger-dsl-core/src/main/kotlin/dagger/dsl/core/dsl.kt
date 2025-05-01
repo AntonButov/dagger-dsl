@@ -1,43 +1,73 @@
 package dagger.dsl.core
 
-fun component(dsl: ComponentBuilder.() -> Unit): Component {
-    return ComponentBuilder().apply(dsl).build()
+/**
+ * Creates a component using the provided DSL.
+ * This method is intentionally empty as it's only used for building the DSL structure.
+ * The actual implementation is provided by the annotation processor.
+ */
+fun <T : Any> component(dsl: ComponentBuilder.() -> Unit) {
 }
 
-class ComponentBuilder {
-    private var isSingleton = false
-    var name: String = "Component"
-    private var modules: MutableList<Module> = mutableListOf()
+/**
+ * Creates a singleton component using the provided DSL.
+ * This method is intentionally empty as it's only used for building the DSL structure.
+ * The actual implementation is provided by the annotation processor.
+ */
+fun <T : Any> componentSingleton(dsl: ComponentBuilder.() -> Unit) {
+}
 
-    fun singleton() {
-        isSingleton = true
+/**
+ * Builder class for component configuration.
+ * Methods in this class are intentionally empty as they're only used for building the DSL structure.
+ * The actual implementation is provided by the annotation processor.
+ */
+class ComponentBuilder() {
+    /**
+     * Adds an abstract module to the component.
+     * This method is intentionally empty as it's only used for building the DSL structure.
+     */
+    fun moduleAbstract(dsl: AbstractModuleDsl.() -> Unit) {
     }
 
+    /**
+     * Adds a module to the component.
+     * This method is intentionally empty as it's only used for building the DSL structure.
+     */
     fun module(dsl: ModuleDsl.() -> Unit) {
-        modules.add(ModuleDsl().apply(dsl).build())
     }
-
-    internal fun build() = Component(isSingleton, name, modules)
 }
 
-data class Component(
-    val isSingleton: Boolean,
-    val name: String,
-    val modules: List<Module>,
-)
+/**
+ * DSL for configuring abstract modules.
+ * Methods in this class are intentionally empty as they're only used for building the DSL structure.
+ * The actual implementation is provided by the annotation processor.
+ */
+class AbstractModuleDsl() {
+    /**
+     * Binds an implementation to an interface.
+     * This method is intentionally empty as it's only used for building the DSL structure.
+     */
+    fun <T, I : Any> bind() {
+    }
 
+    /**
+     * Binds an implementation to an interface as a singleton.
+     * This method is intentionally empty as it's only used for building the DSL structure.
+     */
+    fun <T, I : Any> bindSingleton() {
+    }
+}
+
+/**
+ * DSL for configuring modules.
+ * Methods in this class are intentionally empty as they're only used for building the DSL structure.
+ * The actual implementation is provided by the annotation processor.
+ */
 class ModuleDsl() {
-    private var name: String? = null
-    val binds: MutableList<Pair<Class<*>, Class<*>>> = mutableListOf()
-
-    inline fun <reified T> bind(classImpl: Class<out T>) {
-        binds.add(T::class.java to classImpl)
+    /**
+     * Provides an implementation for a type.
+     * This method is intentionally empty as it's only used for building the DSL structure.
+     */
+    fun <T, I : Any> provides() {
     }
-
-    fun build() = Module(name, binds)
 }
-
-data class Module(
-    val name: String?,
-    val binds: List<Pair<Class<*>, Class<*>>>,
-)

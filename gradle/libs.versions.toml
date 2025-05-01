@@ -1,5 +1,5 @@
 [versions]
-core = "0.1.2"
+core = "0.1.3"
 kotlin = "1.9.25"
 ksp = "1.9.25-1.0.20"
 kotest = "5.9.1"
@@ -29,13 +29,8 @@ dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
-ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 
 [bundles]
-ktor = ["ktor-client-core", "ktor-client-cio"]
-ktor-test = ["ktor-client-core", "ktor-client-cio", "ktor-client-mock"]
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

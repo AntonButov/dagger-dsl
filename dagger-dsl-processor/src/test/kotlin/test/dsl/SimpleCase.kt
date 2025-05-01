@@ -5,8 +5,10 @@ import dagger.dsl.core.component
 
 @DaggerDsl
 fun dsl() =
-    component {
-        name = "test"
-        module {
-        }
+    // todo for integration tests
+    component<CoffeeShop> {
     }
+
+interface CoffeeShop {
+    fun maker(): String
+}

@@ -35,3 +35,7 @@ tasks.named("build") {
 tasks.named("test") {
     dependsOn("ktlintFormat")
 }
+
+tasks.test {
+    useJUnitPlatform()
+}
