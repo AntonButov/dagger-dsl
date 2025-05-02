@@ -4,7 +4,7 @@
 
 KSP processor that generates Dagger structured files.
 
-
+📚 [Documentation](https://antonbutov.github.io/dagger-dsl/)
 ```kotlin
 repositories {
     mavenCentral()
@@ -14,11 +14,15 @@ repositories {
 ```kotlin
 plugins {
     id("com.google.devtools.ksp") version "1.9.24-1.0.20"
+    id ("kotlin-kapt")
 }
 ```
 ```kotlin
 dependencies {
     ksp("com.github.antonbutov:dagger-dsl-processor:<$last-version>")
+    implementation("com.github.antonbutov:dagger-dsl-processor:<$last-version>")
+    implementation("com.google.dagger:dagger:2.x")
+    kapt("com.google.dagger:dagger-compiler:2.x")
 }
 ```
 
