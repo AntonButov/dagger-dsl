@@ -15,9 +15,11 @@ repositories {
 dependencies {
     ksp(project(":dagger-dsl-processor"))
     implementation(project(":dagger-dsl-core"))
-    implementation(kotlin("stdlib"))
+
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
+
+    implementation(kotlin("stdlib"))
 
     testImplementation(libs.kotest.runner)
 }
