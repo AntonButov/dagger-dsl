@@ -1,0 +1,8 @@
+site_name: Dagger DSL
+site_url: https://antonbutov.github.io/dagger-dsl/
+repo_url: https://github.com/AntonButov/dagger-dsl
+
+nav:
+  - 'index.md'
+
+theme: mkdocs

@@ -2,7 +2,7 @@
 
 # Dagger DSL
 
-KSP processor generated dagger structured files.
+KSP processor that generates Dagger structured files.
 
 
 ```kotlin
@@ -21,44 +21,7 @@ dependencies {
     ksp("com.github.antonbutov:dagger-dsl-processor:<$last-version>")
 }
 ```
-## How it works
-You write
-```
-@DaggerDsl
-fun anyNameFunction() =
-    componentSingleton<CoffeeShop> {
-        moduleAbstract {
-            bind<Pump, Thermosiphon>()
-        }
-        moduleAbstract {
-            bindSingleton<Heater, ElectricHeater>()
-        }
-    }
-```
-The processor generates:
-```
-@Component(modules = [ModulePump::class, ModuleHeater::class])
-@Singleton
-public interface CoffeeShopDsl {
-    public fun maker(): CoffeeMaker
 
-    public fun logger(): CoffeeLogger
-}
-
-@Module
-public abstract class ModuleHeater {
-    @Binds
-    @Singleton
-    public abstract fun bindHeater(`impl`: ElectricHeater): Heater
-}
-
-@Module
-public abstract class ModulePump {
-    @Binds
-    public abstract fun bindPump(`impl`: Thermosiphon): Pump
-}
-```
-Dagger takes these files and works.
 
 ## 🤝 Contributing
 Thanks for checking out Dagger DSL! Contributions of all kinds are welcome — whether it’s code, ideas, docs, or just feedback.
