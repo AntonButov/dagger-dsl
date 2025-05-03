@@ -1,4 +1,4 @@
-package usecases
+package typeFinders
 
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.Resolver
@@ -7,6 +7,7 @@ import models.ComponentType
 import models.ComponentTypeMethod
 import models.Param
 import models.Type
+import usecases.getClassKind
 
 interface ComponentTypeFinder {
     fun findByName(

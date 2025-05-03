@@ -2,8 +2,8 @@ package models
 
 data class AbstractModule(
     val binds: List<Bind>,
-) {
-    val name: String
+) : Module {
+    override val name: String
         get() {
             val firstBindType = binds.firstOrNull()?.bindTypes?.type?.name ?: ""
             return "Module$firstBindType"

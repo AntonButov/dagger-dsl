@@ -5,6 +5,7 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import models.ComponentTypeMethod
 import models.Type
+import typeFinders.ComponentTypeFinderImpl
 
 class ComponentTypeFinderTest : BehaviorSpec(
     {

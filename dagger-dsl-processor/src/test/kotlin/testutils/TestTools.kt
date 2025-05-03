@@ -10,10 +10,3 @@ object TestFileCreator {
         return tempFile
     }
 }
-
-fun diFun(code: () -> String): String =
-    buildString {
-        appendLine("fun diFun() {")
-        appendLine(code())
-        appendLine("}")
-    }

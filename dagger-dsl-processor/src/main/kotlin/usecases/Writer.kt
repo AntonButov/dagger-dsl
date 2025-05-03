@@ -37,7 +37,7 @@ class WriterImpl(private val codeGenerator: CodeGenerator) : Writer {
     ) {
         FileSpec.builder(
             packageName = file.packageName.asString(),
-            fileName = "${spec.name}.kt",
+            fileName = spec.name.toString(),
         ).addType(spec)
             .build()
             .writeTo(

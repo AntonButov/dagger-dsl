@@ -1,7 +1,7 @@
 package usecases
 
-import processor.testutils.Method
-import processor.testutils.findFunctions
+import processor.psiUtils.Method
+import processor.psiUtils.findFunctions
 import java.io.File
 
 interface ComponentMethodFinder {
@@ -11,6 +11,10 @@ interface ComponentMethodFinder {
 class ComponentMethodFinderImpl() : ComponentMethodFinder {
     override fun mapComponent(dslFun: DaggerDslFunction): Method {
         val code = File(dslFun.containingFile.filePath).readText()
-        return code.findFunctions().first { it.name == dslFun.nameFun }.lambdaMethods.firstOrNull() ?: error("Component not found")
+        return code
+            .findFunctions()
+            .first { it.name == dslFun.nameFun }
+            .lambdaMethods
+            .firstOrNull() ?: error("Component not found")
     }
 }
