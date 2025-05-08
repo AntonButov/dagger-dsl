@@ -7,7 +7,7 @@ import io.mockk.every
 import io.mockk.mockk
 import models.Provides
 import models.Type
-import processor.psiUtils.Method
+import psiUtils.Method
 import typeFinders.ClassAndInterfaceTypeFinder
 
 class ModuleMapperTest : BehaviorSpec({

@@ -1,4 +1,4 @@
-package processor.psiUtils
+package psiUtils
 
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
@@ -29,7 +29,8 @@ fun String.findFunctions(): List<Method> {
                 is KtProperty -> {
                     println("property: $it")
                     val bodyExpression = it.initializer ?: error("Body not initialized")
-                    (bodyExpression as KtCallExpression).toMethod()
+                    (bodyExpression as? KtCallExpression)?.toMethod()
+                        ?: error("Property ${it.name} initializer is not a call expression: ${bodyExpression::class.simpleName}")
                     Method(
                         name = it.name.toString(),
                         lambdaMethods = listOf(bodyExpression.toMethod()),

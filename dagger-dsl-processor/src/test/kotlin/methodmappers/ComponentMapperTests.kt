@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import models.ComponentType
-import processor.psiUtils.Method
+import psiUtils.Method
 import typeFinders.ComponentTypeFinder
 
 class ComponentMapperTests : BehaviorSpec({

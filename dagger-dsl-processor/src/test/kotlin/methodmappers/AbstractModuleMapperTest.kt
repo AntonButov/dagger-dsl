@@ -8,7 +8,7 @@ import io.mockk.mockk
 import models.Bind
 import models.BindTypes
 import models.Type
-import processor.psiUtils.Method
+import psiUtils.Method
 import typeFinders.BindImplFinder
 import typeFinders.BindTypeFinder
 

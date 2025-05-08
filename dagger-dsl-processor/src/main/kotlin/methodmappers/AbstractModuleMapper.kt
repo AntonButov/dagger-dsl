@@ -5,7 +5,7 @@ import models.AbstractModule
 import models.Bind
 import models.BindTypes
 import org.jetbrains.kotlin.javax.inject.Inject
-import processor.psiUtils.Method
+import psiUtils.Method
 import typeFinders.BindImplFinder
 import typeFinders.BindTypeFinder
 

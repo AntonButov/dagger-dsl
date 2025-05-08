@@ -1,7 +1,7 @@
 package usecases
 
-import processor.psiUtils.Method
-import processor.psiUtils.findFunctions
+import psiUtils.Method
+import psiUtils.findFunctions
 import java.io.File
 
 interface ComponentMethodFinder {

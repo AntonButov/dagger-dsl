@@ -4,6 +4,7 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import psiUtils.findFunctions
 
 class PsiUtilsTest : BehaviorSpec({
     Given("String.findFunctions extension") {

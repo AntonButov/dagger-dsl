@@ -5,7 +5,7 @@ import models.AbstractModule
 import models.Component
 import models.ProvidesModule
 import org.jetbrains.kotlin.javax.inject.Inject
-import processor.psiUtils.Method
+import psiUtils.Method
 import typeFinders.ComponentTypeFinder
 
 interface MethodToComponentMapper {

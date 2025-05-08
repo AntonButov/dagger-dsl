@@ -3,7 +3,7 @@ package usecases
 import compile
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
-import processor.psiUtils.findFunctions
+import psiUtils.findFunctions
 
 class ComponentMethodFinderTest : BehaviorSpec({
 

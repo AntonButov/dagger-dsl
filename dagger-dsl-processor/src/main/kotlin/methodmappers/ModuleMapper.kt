@@ -3,7 +3,7 @@ package methodmappers
 import com.google.devtools.ksp.processing.Resolver
 import models.Provides
 import models.ProvidesModule
-import processor.psiUtils.Method
+import psiUtils.Method
 import typeFinders.ClassAndInterfaceTypeFinder
 import java.util.regex.Pattern
 
@@ -57,7 +57,7 @@ class ModuleMapperImpl(
         val parameters = mutableListOf<String>()
 
         // Pattern to match get<Type>() expressions
-        val pattern = Pattern.compile("get<([A-Za-z0-9_]+)>\\(\\)")
+        val pattern = Pattern.compile("get<([A-Za-z0-9_.<>,\\s]+)>\\(\\)")
         val matcher = pattern.matcher(body)
 
         while (matcher.find()) {
