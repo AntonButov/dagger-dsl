@@ -52,7 +52,9 @@ class MethodToComponentMapperImpl
             method: Method,
             resolver: Resolver,
         ): Component {
-            val componentTypeName = method.genericTypes.first()
+            val componentTypeName =
+                method.genericTypes.firstOrNull()
+                    ?: error("Component method must have at least one generic type")
             val componentType = componentTypeFinder.findByName(resolver, componentTypeName)
             val modules = mapModules(method.lambdaMethods, resolver)
             return Component(
