@@ -28,12 +28,13 @@ fun String.findFunctions(): List<Method> {
             when (it) {
                 is KtProperty -> {
                     val initializerExpr = it.initializer ?: error("Body not initialized")
-                    val callExpr = initializerExpr as? KtCallExpression
-                        ?: error("Property ${it.name} initializer is not a call expression: ${initializerExpr::class.simpleName}")
+                    val callExpr =
+                        initializerExpr as? KtCallExpression
+                            ?: error("Property ${it.name} initializer is not a call expression: ${initializerExpr::class.simpleName}")
                     Method(
                         name = it.name.toString(),
                         lambdaMethods = listOf(callExpr.toMethod()),
-                        )
+                    )
                 }
                 is KtNamedFunction -> {
                     println("function: $it")
