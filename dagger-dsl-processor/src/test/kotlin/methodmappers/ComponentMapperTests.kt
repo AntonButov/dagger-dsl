@@ -21,8 +21,8 @@ class ComponentMapperTests : BehaviorSpec({
                     )
             }
 
-        val abstractModuleMapper: AbstractModuleMapper = mockk()
-        val moduleMapper: ModuleMapper = mockk()
+        val abstractModuleMapper: AbstractModuleMapper = mockk(relaxed = true)
+        val moduleMapper: ModuleMapper = mockk(relaxed = true)
 
         val methodToComponentMapper: MethodToComponentMapper =
             MethodToComponentMapperImpl(

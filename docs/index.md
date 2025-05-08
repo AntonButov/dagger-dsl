@@ -61,7 +61,21 @@ val component = component {
     }        
 ```
 
-## Not implemented yet
+## Important Note
+
+Remember to add `@Inject` annotation to your class constructors. Dagger requires this annotation to properly inject dependencies. For example:
+
+```kotlin
+class Thermosiphon @Inject constructor(private val heater: Heater) : Pump {
+    // Implementation
+}
+
+class ElectricHeater @Inject constructor() : Heater {
+    // Implementation
+}
+```
+
+Without the `@Inject` annotation on constructors, Dagger won't be able to create instances of your classes automatically.
 
 Simple case. We can generate modules.
 ```kotlin
@@ -71,6 +85,9 @@ val mainComponent = componentSingleton<CoffeeShop> {
         bindSingleton<Heater, ElectricHeater>()
     }
 ```
+
+## Not implemented yet
+
 Multimodule
 ```kotlin
 @DaggerDsl

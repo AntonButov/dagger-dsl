@@ -14,16 +14,7 @@ interface AbstractModuleToTypeSpecMapper {
     fun map(modules: List<AbstractModule>): List<TypeSpec>
 }
 
-/**
- * Maps AbstractModule objects to KotlinPoet TypeSpec objects.
- */
 class AbstractModuleToTypeSpecMapperImpl : AbstractModuleToTypeSpecMapper {
-    /**
-     * Maps a list of AbstractModule objects to a list of TypeSpec objects.
-     *
-     * @param modules The list of AbstractModule objects to map
-     * @return A list of TypeSpec objects representing Dagger modules
-     */
     override fun map(modules: List<AbstractModule>): List<TypeSpec> {
         return modules.map { module ->
             val moduleBuilder =
