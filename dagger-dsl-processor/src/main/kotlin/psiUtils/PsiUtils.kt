@@ -27,14 +27,13 @@ fun String.findFunctions(): List<Method> {
         .mapNotNull {
             when (it) {
                 is KtProperty -> {
-                    println("property: $it")
-                    val bodyExpression = it.initializer ?: error("Body not initialized")
-                    (bodyExpression as? KtCallExpression)?.toMethod()
-                        ?: error("Property ${it.name} initializer is not a call expression: ${bodyExpression::class.simpleName}")
+                    val initializerExpr = it.initializer ?: error("Body not initialized")
+                    val callExpr = initializerExpr as? KtCallExpression
+                        ?: error("Property ${it.name} initializer is not a call expression: ${initializerExpr::class.simpleName}")
                     Method(
                         name = it.name.toString(),
-                        lambdaMethods = listOf(bodyExpression.toMethod()),
-                    )
+                        lambdaMethods = listOf(callExpr.toMethod()),
+                        )
                 }
                 is KtNamedFunction -> {
                     println("function: $it")
