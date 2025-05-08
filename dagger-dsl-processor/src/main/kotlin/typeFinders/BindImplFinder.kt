@@ -1,9 +1,8 @@
-package usecases.bindfinders
+package typeFinders
 
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.ClassKind
 import models.Type
-import usecases.getClassKind
 
 interface BindImplFinder {
     fun findByName(
@@ -17,10 +16,6 @@ class BindImplFinderImpl : BindImplFinder {
         resolver: Resolver,
         name: String,
     ): Type {
-        val implDeclaration = resolver.getClassKind(ClassKind.CLASS).first { it.simpleName.asString() == name }
-        return Type(
-            name = implDeclaration.simpleName.asString(),
-            packageName = implDeclaration.packageName.asString(),
-        )
+        return resolver.findTypeByName(name, ClassKind.CLASS)
     }
 }

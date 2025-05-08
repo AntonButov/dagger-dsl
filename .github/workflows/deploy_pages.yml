@@ -3,8 +3,9 @@ name: Deploy MkDocs to GitHub Pages
 on:
   push:
     branches: [ "trunk" ]
-  pull_request:
-    branches: [ "trunk" ]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
 
 jobs:
   deploy:

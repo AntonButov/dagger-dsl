@@ -1,9 +1,10 @@
-package processor.testutils
+package psiUtils
 
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtDeclaration
 import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.psi.KtProperty
 import readers.PsiFileCreatorImpl
 
 /**
@@ -13,6 +14,7 @@ data class Method(
     val name: String,
     val genericTypes: List<String> = emptyList(),
     val lambdaMethods: List<Method> = emptyList(),
+    val lambdaBody: String = "",
 )
 
 /**
@@ -22,8 +24,25 @@ data class Method(
  */
 fun String.findFunctions(): List<Method> {
     return this.declarations()
-        .filterIsInstance<KtNamedFunction>()
-        .map { it.toMethod() }
+        .mapNotNull {
+            when (it) {
+                is KtProperty -> {
+                    val initializerExpr = it.initializer ?: error("Body not initialized")
+                    val callExpr =
+                        initializerExpr as? KtCallExpression
+                            ?: error("Property ${it.name} initializer is not a call expression: ${initializerExpr::class.simpleName}")
+                    Method(
+                        name = it.name.toString(),
+                        lambdaMethods = listOf(callExpr.toMethod()),
+                    )
+                }
+                is KtNamedFunction -> {
+                    println("function: $it")
+                    it.toMethod()
+                }
+                else -> null
+            }
+        }
 }
 
 /**
@@ -39,6 +58,7 @@ private fun String.declarations(): List<KtDeclaration> {
  * Converts a KtNamedFunction to a Method object
  */
 private fun KtNamedFunction.toMethod(): Method {
+    println("name: ${nameIdentifier?.text}")
     val bodyExpression =
         bodyExpression as? KtBlockExpression ?: return Method(
             name = nameIdentifier?.text ?: "",
@@ -49,6 +69,7 @@ private fun KtNamedFunction.toMethod(): Method {
     return Method(
         name = nameIdentifier?.text ?: "",
         lambdaMethods = lambdaMethods,
+        lambdaBody = bodyExpression.text,
     )
 }
 
@@ -74,6 +95,7 @@ private fun KtCallExpression.toMethod(): Method {
         name = calleeExpression?.text ?: error("No name method."),
         genericTypes = genericTypes,
         lambdaMethods = nestedMethods,
+        lambdaBody = lambdaExpr?.text ?: "",
     )
 }
 

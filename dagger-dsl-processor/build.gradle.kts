@@ -7,7 +7,7 @@ group = "com.dagger.dsl"
 version = "1.0-SNAPSHOT"
 
 dependencies {
-    api(project(":dagger-dsl-core"))
+    implementation(project(":dagger-dsl-core"))
     ksp(libs.code.factory)
     implementation(libs.ksp)
     implementation(libs.compile.embedded)
@@ -29,4 +29,15 @@ tasks.test {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.withType<JavaCompile> {
+    sourceCompatibility = JavaVersion.VERSION_17.toString()
+    targetCompatibility = JavaVersion.VERSION_17.toString()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
 }

@@ -4,11 +4,11 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
+import methodmappers.MethodToComponentMapper
 import transformers.ComponentToFileSpecMapper
 import usecases.ComponentMethodFinder
-import usecases.MethodToComponentMapper
 import usecases.Writer
-import usecases.findDslMainFunction
+import usecases.findDsl
 
 class Processor(
     private val logger: KSPLogger,
@@ -21,9 +21,10 @@ class Processor(
         if (resolver.getNewFiles().toList().any { it.filePath.contains("generated") }) {
             return emptyList() // https://github.com/AntonButov/dagger-dsl/issues/22
         }
-        val dslFun = resolver.findDslMainFunction() ?: return emptyList()
+
+        val dslFun = resolver.findDsl() ?: return emptyList()
         val componentMethod = componentMethodFinder.mapComponent(dslFun)
-        val component = methodToComponentMapper.mapComponent(listOf(componentMethod), resolver)
+        val component = methodToComponentMapper.mapComponent(componentMethod, resolver)
         val specs = componentToFileSpecMapper.map(component)
         writer.write(
             file = dslFun.containingFile,

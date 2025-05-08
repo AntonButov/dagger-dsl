@@ -49,18 +49,20 @@ public abstract class ModulePump {
 
 This approach gives you the best of both worlds: the simplicity of a DSL with the power and performance of compile-time dependency injection.
 
-## Not implemented yet
 Provides
 ```kotlin
 @DaggerDsl
 val component = component {
         module {
-            provide {
+            provide<Coffee> {
                 Coffee(get<Logger>())
             }
         }
     }        
 ```
+
+## Not implemented yet
+
 Simple case. We can generate modules.
 ```kotlin
 @DaggerDsl
@@ -80,13 +82,12 @@ Subcomponent
 ```kotlin
 @DaggerDsl
 val component = componentSingleton<CoffeeShop> {
-        moduleAbstract(subcomponent = subcomponent) {
+        moduleAbstract {
             bind<Pump, Thermosiphon>()
-        }
-
-        @DaggerDsl
-        val subcomponent = component<SubComponent>() {
-            bind<Coffee, Espresso>()
+            
+            subComponent<SubComponent>() { 
+                bind<Coffee, Espresso>()
+            }
         }
     }
 ```
@@ -96,10 +97,6 @@ Component DSL
 val component = component {
     get<Logger>()
     inject<Fragment>()
-    
-    moduleAbstract {
-        bind<Pump, Thermosiphon>()
-    }
 }
 ```
 BuildInstance

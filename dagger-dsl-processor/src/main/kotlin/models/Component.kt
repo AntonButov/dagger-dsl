@@ -5,6 +5,7 @@ data class Component(
     val name: String = "Component",
     val componentType: ComponentType,
     val abstractModules: List<AbstractModule>,
+    val providesModules: List<ProvidesModule>,
 )
 
 data class ComponentType(

@@ -3,8 +3,7 @@ package usecases
 import compile
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
-import processor.testutils.findFunctions
-import testutils.diFun
+import psiUtils.findFunctions
 
 class ComponentMethodFinderTest : BehaviorSpec({
 
@@ -27,7 +26,7 @@ class ComponentMethodFinderTest : BehaviorSpec({
 
             Then("should return a list of strings") {
                 code compile { resolver ->
-                    val dslFun = resolver.findDslMainFunction()!!
+                    val dslFun = resolver.findDsl()!!
                     val component = componentMethodFinder.mapComponent(dslFun)
                     component.name shouldBe "component"
                     component.lambdaMethods shouldBe emptyList()
@@ -37,12 +36,14 @@ class ComponentMethodFinderTest : BehaviorSpec({
 
         When("component hase generic") {
             val code =
-                diFun {
-                    """
-                    component<SomeComponent> {
+                """
+                @DaggerDsl
+                fun anyNameFunction() {
+                    
+                        component<SomeComponent> {
+                        }
                     }
-                    """.trimIndent()
-                }
+                """.trimIndent()
             val component = code.findFunctions().first().lambdaMethods.first()
             Then("should return the generic") {
                 component.name shouldBe "component"

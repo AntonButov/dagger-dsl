@@ -68,6 +68,15 @@ class ModuleDsl() {
      * Provides an implementation for a type.
      * This method is intentionally empty as it's only used for building the DSL structure.
      */
-    fun <T, I : Any> provides() {
+    @JvmName("providesGeneric")
+    fun <T : Any> provides(factory: () -> T) {
     }
+}
+
+/**
+ * Retrieves an instance of type T from the Dagger component.
+ * This is a placeholder - actual implementation is provided by the annotation processor.
+ */
+fun <T : Any> get(): T {
+    throw UnsupportedOperationException("This method is only used for building the DSL structure.")
 }
