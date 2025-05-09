@@ -28,6 +28,7 @@ jobs:
         with:
           generate-branches-badge: true
           jacoco-csv-file: "dagger-dsl-processor/build/reports/jacoco/test/jacocoTestReport.csv"
+          ref: ${{ github.ref_name }}
 
       - name: Log coverage percentage
         run: |
