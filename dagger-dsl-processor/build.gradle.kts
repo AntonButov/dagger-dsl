@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ksp)
+    jacoco
 }
 
 group = "com.dagger.dsl"
@@ -21,6 +22,12 @@ dependencies {
 
     testImplementation(libs.kotest.runner)
     api(libs.compilation) // todo https://github.com/AntonButov/dagger-dsl/issues/8
+}
+
+tasks.jacocoTestReport {
+    reports {
+        csv.required.set(true)
+    }
 }
 
 tasks.test {

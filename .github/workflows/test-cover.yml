@@ -1,0 +1,41 @@
+name: Coverage Report
+
+on:
+  push:
+    branches: [ "trunk" ]
+  pull_request:
+    branches: [ "trunk" ]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build and generate Kover report
+        run: ./gradlew test jacocoTestReport
+
+      - name: Create badges directory
+        run: mkdir -p .github/badges
+
+      - name: Generate coverage badges
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          jacoco-csv-file: dagger-dsl-processor/build/reports/jacoco/test/jacocoTestReport.csv
+          generate-branches-badge: true
+
+      - name: Commit badges
+        if: github.event_name != 'pull_request'
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add .github/badges
+          git commit -m "Update coverage badges"
+          git push
