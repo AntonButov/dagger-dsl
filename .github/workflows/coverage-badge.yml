@@ -26,15 +26,18 @@ jobs:
       run: ./gradlew build koverXmlReport
 
     - name: Generate Coverage Badge
-      uses: jaywcjlove/coverage-badge-action@main
+      uses: cicirello/jacoco-badge-generator@v2
       with:
-        coverage-xml-path: ./dagger-dsl-processor/build/reports/kover/report.xml
-        output: ./coverage-badge.svg
+        jacoco-csv-file: ./dagger-dsl-processor/build/reports/kover/report.xml
+        badges-directory: .github/badges
+        generate-branches-badge: true
+        generate-summary: true
 
     - name: Commit and push badge if changed
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add coverage-badge.svg
+        git add .github/badges/
         git commit -m "Update coverage badge" || echo "No changes to commit"
+        git push
         git push
