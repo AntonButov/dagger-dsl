@@ -56,12 +56,22 @@ class MethodToComponentMapperImpl
                 method.genericTypes.firstOrNull()
                     ?: error("Component method must have at least one generic type")
             val componentType = componentTypeFinder.findByName(resolver, componentTypeName)
-            val modules = mapModules(method.lambdaMethods, resolver)
+            val modulesClassicWay = mapModules(method.lambdaMethods, resolver)
+            val rootAbstractModules = abstractModuleMapper.mapAbstractModule(method.lambdaMethods, resolver)
+            val rootProvidesModules = moduleMapper.mapModule(method.lambdaMethods, resolver)
+            val resultAbstractModules =
+                (modulesClassicWay.abstractModules + rootAbstractModules)
+                    .filter { it.binds.isNotEmpty() }
+                    .distinct() // https://github.com/AntonButov/dagger-dsl/issues/40
+            val resultProvidesModules =
+                (modulesClassicWay.providesModules + rootProvidesModules)
+                    .filter { it.provides.isNotEmpty() }
+                    .distinct()
             return Component(
                 isSingleton = isSingleton,
                 componentType = componentType,
-                abstractModules = modules.abstractModules,
-                providesModules = modules.providesModules,
+                abstractModules = resultAbstractModules,
+                providesModules = resultProvidesModules,
             )
         }
 
@@ -80,8 +90,6 @@ class MethodToComponentMapperImpl
                     "module" -> {
                         providesModules.add(moduleMapper.mapModule(method.lambdaMethods, resolver))
                     }
-
-                    else -> error("Unsupported method '${method.name}')")
                 }
             }
             return ModulesContainer(abstractModules, providesModules)

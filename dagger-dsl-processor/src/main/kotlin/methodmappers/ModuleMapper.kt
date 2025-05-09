@@ -44,7 +44,6 @@ class ModuleMapperImpl(
                         ),
                     )
                 }
-                else -> throw IllegalArgumentException("Unsupported method: ${method.name}")
             }
         }
 

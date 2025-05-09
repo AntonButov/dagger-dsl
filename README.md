@@ -4,6 +4,8 @@
 
 KSP processor that generates Dagger structured files.
 
+![](./images/simple-case.png)
+
 📚 [Documentation](https://antonbutov.github.io/dagger-dsl/)
 ```kotlin
 repositories {

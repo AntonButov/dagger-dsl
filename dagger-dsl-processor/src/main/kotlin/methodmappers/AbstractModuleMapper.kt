@@ -30,22 +30,23 @@ class AbstractModuleMapperImpl
             methods.forEach { method ->
                 when (method.name) {
                     "bind" -> {
-                        processBind(
-                            method = method,
-                            resolver = resolver,
-                            binds = binds,
-                            isSingleton = false,
+                        binds.add(
+                            mapBind(
+                                method = method,
+                                resolver = resolver,
+                                isSingleton = false,
+                            ),
                         )
                     }
                     "bindSingleton" -> {
-                        processBind(
-                            method = method,
-                            resolver = resolver,
-                            binds = binds,
-                            isSingleton = true,
+                        binds.add(
+                            mapBind(
+                                method = method,
+                                resolver = resolver,
+                                isSingleton = true,
+                            ),
                         )
                     }
-                    else -> error("Method not supported.")
                 }
             }
             return AbstractModule(
@@ -53,21 +54,22 @@ class AbstractModuleMapperImpl
             )
         }
 
-        private fun processBind(
+        private fun mapBind(
             method: Method,
             resolver: Resolver,
-            binds: MutableList<Bind>,
             isSingleton: Boolean,
-        ) {
-            val type = method.genericTypes.first()
-            val impl = method.genericTypes.last()
+        ): Bind {
+            val generics = method.genericTypes
+            require(generics.size == 2) {
+                "bind[Singleton] must specify exactly two generic types: <Interface, Implementation>"
+            }
+            val type = generics[0]
+            val impl = generics[1]
             val typeType = bindTypeFinder.findByName(resolver, type)
             val implType = bindImplFinder.findByName(resolver, impl)
-            binds.add(
-                Bind(
-                    isSingleton = isSingleton,
-                    bindTypes = BindTypes(typeType, implType),
-                ),
+            return Bind(
+                isSingleton = isSingleton,
+                bindTypes = BindTypes(typeType, implType),
             )
         }
     }
