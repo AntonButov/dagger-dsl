@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Важно для правильной работы с git history
 
     - name: Set up JDK
       uses: actions/setup-java@v3
@@ -23,12 +25,12 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle and run tests with coverage
-      run: ./gradlew build koverXmlReport
+      run: ./gradlew build test jacocoTestReport
 
     - name: Generate Coverage Badge
       uses: cicirello/jacoco-badge-generator@v2
       with:
-        jacoco-csv-file: ./dagger-dsl-processor/build/reports/kover/report.xml
+        jacoco-csv-file: ./dagger-dsl-processor/build/reports/jacoco/test/jacocoTestReport.csv
         badges-directory: .github/badges
         generate-branches-badge: true
         generate-summary: true

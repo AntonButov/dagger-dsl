@@ -1,7 +1,38 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kover)
+    id("jacoco")  // Добавляем плагин JaCoCo вместо Kover
+}
+
+// Настройка JaCoCo
+jacoco {
+    toolVersion = "0.8.11" // Latest version that supports Java 21
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(true)
+    }
+
+    // Настройка исключений (если необходимо)
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(
+                    "sun/util/resources/cldr/provider/**",
+                    "sun/util/resources/provider/**",
+                    "sun/text/resources/cldr/ext/**"
+                )
+            }
+        })
+    )
+}
+
+// Связываем тесты с отчетом JaCoCo
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 group = "com.dagger.dsl"
