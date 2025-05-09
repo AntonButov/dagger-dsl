@@ -1,8 +1,18 @@
 site_name: Dagger DSL
+repo_name: Dagger DSL
+site_description: "Dagger DSL. Kotlin Symbol Processing"
+site_author: Butov Anton.
+
 site_url: https://antonbutov.github.io/dagger-dsl/
 repo_url: https://github.com/AntonButov/dagger-dsl
 
+theme:
+  name: material
+  icon:
+    logo: material/library
+  palette:
+    primary: indigo
+    accent: indigo
+
 nav:
   - 'index.md'
-
-theme: mkdocs
