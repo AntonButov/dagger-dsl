@@ -1,0 +1,40 @@
+name: Generate Coverage Badge
+
+on:
+  push:
+    branches: [ trunk ]
+  pull_request:
+    branches: [ trunk ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle and run tests with coverage
+      run: ./gradlew build koverXmlReport
+
+    - name: Generate Coverage Badge
+      uses: jaywcjlove/coverage-badge-action@main
+      with:
+        coverage-xml-path: ./dagger-dsl-processor/build/reports/kover/report.xml
+        output: ./coverage-badge.svg
+
+    - name: Commit and push badge if changed
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add coverage-badge.svg
+        git commit -m "Update coverage badge" || echo "No changes to commit"
+        git push

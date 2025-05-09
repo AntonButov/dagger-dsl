@@ -12,8 +12,7 @@ mockk = "1.13.17"
 gradle-tester = "1.1.0"
 koin = "3.5.6"
 vanniktech="0.31.0"
-ktor = "2.3.7"
-kapt = "2.1.20"
+kover = "0.9.1"
 
 [libraries]
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest"}
@@ -37,3 +36,4 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 vanniktech = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
