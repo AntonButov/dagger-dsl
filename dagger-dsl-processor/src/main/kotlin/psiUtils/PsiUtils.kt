@@ -31,10 +31,13 @@ data class Method(
                         lambdaBody = body.text,
                     )
                 }
-                else ->
-                    Method( // todo узнать когда работает
-                        name = function.nameIdentifier?.text ?: "",
+                null ->
+                    Method(
+                        name = function.nameIdentifier?.text ?: error("Function has no body"),
+                        lambdaMethods = emptyList(),
+                        lambdaBody = "",
                     )
+                else -> error("Unsupported body type: ${body::class.java.simpleName}")
             }
         }
 
