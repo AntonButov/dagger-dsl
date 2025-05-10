@@ -8,11 +8,41 @@ repo_url: https://github.com/AntonButov/dagger-dsl
 
 theme:
   name: material
+  favicon: images/dsl.png
   icon:
     logo: material/library
   palette:
-    primary: indigo
-    accent: indigo
+    # Light theme (default)
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark theme
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode  features
+    - content.code.copy
+    - content.code.annotate
+    - navigation.top
+    - navigation.instant
 
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
 nav:
   - 'index.md'
