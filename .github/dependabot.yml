@@ -1,0 +1,23 @@
+# Dependabot configuration file
+version: 2
+updates:
+  # Check for updates to GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+
+  # Check for updates to Gradle dependencies
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    # Add labels to pull requests
+    labels:
+      - "dependencies"
+      - "automerge"
+    # Set reviewers for pull requests
+    reviewers:
+      - "AntonButov"
