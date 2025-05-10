@@ -10,7 +10,7 @@ import typeFinders.BindImplFinder
 import typeFinders.BindTypeFinder
 
 interface AbstractModuleMapper {
-    fun mapAbstractModule(
+    fun mapToAbstractModule(
         methods: List<Method>,
         resolver: Resolver,
     ): AbstractModule
@@ -22,7 +22,7 @@ class AbstractModuleMapperImpl
         private val bindTypeFinder: BindTypeFinder,
         private val bindImplFinder: BindImplFinder,
     ) : AbstractModuleMapper {
-        override fun mapAbstractModule(
+        override fun mapToAbstractModule(
             methods: List<Method>,
             resolver: Resolver,
         ): AbstractModule {
@@ -31,8 +31,7 @@ class AbstractModuleMapperImpl
                 when (method.name) {
                     "bind" -> {
                         binds.add(
-                            mapBind(
-                                method = method,
+                            method.mapToBind(
                                 resolver = resolver,
                                 isSingleton = false,
                             ),
@@ -40,8 +39,7 @@ class AbstractModuleMapperImpl
                     }
                     "bindSingleton" -> {
                         binds.add(
-                            mapBind(
-                                method = method,
+                            method.mapToBind(
                                 resolver = resolver,
                                 isSingleton = true,
                             ),
@@ -54,12 +52,11 @@ class AbstractModuleMapperImpl
             )
         }
 
-        private fun mapBind(
-            method: Method,
+        private fun Method.mapToBind(
             resolver: Resolver,
             isSingleton: Boolean,
         ): Bind {
-            val generics = method.genericTypes
+            val generics = this.genericTypes
             require(generics.size == 2) {
                 "bind[Singleton] must specify exactly two generic types: <Interface, Implementation>"
             }

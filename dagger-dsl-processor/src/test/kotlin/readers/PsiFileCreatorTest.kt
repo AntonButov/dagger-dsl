@@ -3,6 +3,7 @@ package readers
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import org.jetbrains.kotlin.psi.KtFunction
+import psiUtils.PsiFileCreatorImpl
 import testutils.TestFileCreator
 
 class PsiFileCreatorTest : BehaviorSpec({

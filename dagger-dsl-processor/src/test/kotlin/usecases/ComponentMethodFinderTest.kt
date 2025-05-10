@@ -3,7 +3,7 @@ package usecases
 import compile
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
-import psiUtils.findFunctions
+import psiUtils.toMethods
 
 class ComponentMethodFinderTest : BehaviorSpec({
 
@@ -44,7 +44,7 @@ class ComponentMethodFinderTest : BehaviorSpec({
                         }
                     }
                 """.trimIndent()
-            val component = code.findFunctions().first().lambdaMethods.first()
+            val component = code.toMethods().first().lambdaMethods.first()
             Then("should return the generic") {
                 component.name shouldBe "component"
                 component.genericTypes shouldBe listOf("SomeComponent")

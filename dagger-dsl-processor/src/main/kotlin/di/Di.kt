@@ -1,4 +1,4 @@
-package processor
+package di
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
@@ -11,6 +11,7 @@ import methodmappers.MethodToComponentMapperImpl
 import methodmappers.ModuleMapper
 import methodmappers.ModuleMapperImpl
 import org.koin.dsl.module
+import processor.Processor
 import transformers.AbstractModuleToTypeSpecMapper
 import transformers.AbstractModuleToTypeSpecMapperImpl
 import transformers.ComponentToFileSpecMapper

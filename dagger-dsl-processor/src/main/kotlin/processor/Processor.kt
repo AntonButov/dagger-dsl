@@ -24,8 +24,8 @@ class Processor(
 
         val dslFun = resolver.findDsl() ?: return emptyList()
         val componentMethod = componentMethodFinder.mapComponent(dslFun)
-        val component = methodToComponentMapper.mapComponent(componentMethod, resolver)
-        val specs = componentToFileSpecMapper.map(component)
+        val component = methodToComponentMapper.mapToComponent(componentMethod, resolver)
+        val specs = componentToFileSpecMapper.mapToSpecForWriter(component)
         writer.write(
             file = dslFun.containingFile,
             specs = specs,

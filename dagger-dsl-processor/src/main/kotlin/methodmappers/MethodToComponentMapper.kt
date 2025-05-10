@@ -9,7 +9,7 @@ import psiUtils.Method
 import typeFinders.ComponentTypeFinder
 
 interface MethodToComponentMapper {
-    fun mapComponent(
+    fun mapToComponent(
         method: Method,
         resolver: Resolver,
     ): Component
@@ -22,20 +22,20 @@ class MethodToComponentMapperImpl
         private val abstractModuleMapper: AbstractModuleMapper,
         private val moduleMapper: ModuleMapper,
     ) : MethodToComponentMapper {
-        override fun mapComponent(
+        override fun mapToComponent(
             method: Method,
             resolver: Resolver,
         ): Component {
             return when (method.name) {
                 "component" -> {
-                    mapComponent(
+                    mapToComponent(
                         isSingleton = false,
                         method = method,
                         resolver = resolver,
                     )
                 }
                 "componentSingleton" -> {
-                    mapComponent(
+                    mapToComponent(
                         isSingleton = true,
                         method = method,
                         resolver = resolver,
@@ -47,7 +47,7 @@ class MethodToComponentMapperImpl
             }
         }
 
-        private fun mapComponent(
+        private fun mapToComponent(
             isSingleton: Boolean,
             method: Method,
             resolver: Resolver,
@@ -56,8 +56,8 @@ class MethodToComponentMapperImpl
                 method.genericTypes.firstOrNull()
                     ?: error("Component method must have at least one generic type")
             val componentType = componentTypeFinder.findByName(resolver, componentTypeName)
-            val modulesClassicWay = mapModules(method.lambdaMethods, resolver)
-            val rootAbstractModules = abstractModuleMapper.mapAbstractModule(method.lambdaMethods, resolver)
+            val modulesClassicWay = mapToModules(method.lambdaMethods, resolver)
+            val rootAbstractModules = abstractModuleMapper.mapToAbstractModule(method.lambdaMethods, resolver)
             val rootProvidesModules = moduleMapper.mapModule(method.lambdaMethods, resolver)
             val resultAbstractModules =
                 (modulesClassicWay.abstractModules + rootAbstractModules)
@@ -75,7 +75,7 @@ class MethodToComponentMapperImpl
             )
         }
 
-        private fun mapModules(
+        private fun mapToModules(
             methods: List<Method>,
             resolver: Resolver,
         ): ModulesContainer {
@@ -84,10 +84,10 @@ class MethodToComponentMapperImpl
             methods.forEach { method ->
                 when (method.name) {
                     "moduleAbstract" -> {
-                        abstractModules.add(abstractModuleMapper.mapAbstractModule(method.lambdaMethods, resolver))
+                        abstractModules.add(abstractModuleMapper.mapToAbstractModule(method.lambdaMethods, resolver))
                     }
 
-                    "module" -> {
+                    "di.module" -> {
                         providesModules.add(moduleMapper.mapModule(method.lambdaMethods, resolver))
                     }
                 }

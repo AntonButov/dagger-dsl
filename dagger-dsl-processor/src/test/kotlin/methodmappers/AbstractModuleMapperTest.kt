@@ -41,7 +41,7 @@ class AbstractModuleMapperTest : BehaviorSpec({
                 )
 
             Then("Should create a non-singleton bind") {
-                val module = abstractModuleMapper.mapAbstractModule(listOf(bind), resolver)
+                val module = abstractModuleMapper.mapToAbstractModule(listOf(bind), resolver)
                 module.binds shouldBe
                     listOf(
                         Bind(
@@ -64,7 +64,7 @@ class AbstractModuleMapperTest : BehaviorSpec({
                 )
 
             Then("Should create a singleton bind") {
-                val module = abstractModuleMapper.mapAbstractModule(listOf(bind), resolver)
+                val module = abstractModuleMapper.mapToAbstractModule(listOf(bind), resolver)
                 module.binds shouldBe
                     listOf(
                         Bind(
@@ -93,7 +93,7 @@ class AbstractModuleMapperTest : BehaviorSpec({
                 )
 
             Then("Should create multiple binds with correct singleton flags") {
-                val module = abstractModuleMapper.mapAbstractModule(binds, resolver)
+                val module = abstractModuleMapper.mapToAbstractModule(binds, resolver)
                 module.binds.size shouldBe 2
                 module.binds[0].isSingleton shouldBe false
                 module.binds[1].isSingleton shouldBe true

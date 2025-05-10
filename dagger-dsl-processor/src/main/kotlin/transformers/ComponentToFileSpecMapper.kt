@@ -10,16 +10,16 @@ import models.ComponentTypeMethod
 import javax.inject.Singleton
 
 interface ComponentToFileSpecMapper {
-    fun map(component: Component): SpecsForWriter
+    fun mapToSpecForWriter(component: Component): SpecsForWriter
 }
 
 class ComponentToFileSpecMapperImpl(
     private val abstractModuleToTypeSpecMapper: AbstractModuleToTypeSpecMapper,
     private val moduleToTypeSpecMapper: ModuleToTypeSpecMapper,
 ) : ComponentToFileSpecMapper {
-    override fun map(component: Component): SpecsForWriter {
+    override fun mapToSpecForWriter(component: Component): SpecsForWriter {
         val componentTypeSpec = mapComponentToSpec(component)
-        val abstractModuleTypeSpec = abstractModuleToTypeSpecMapper.map(component.abstractModules)
+        val abstractModuleTypeSpec = abstractModuleToTypeSpecMapper.mapToTypeSpec(component.abstractModules)
         val moduleTypeSpec = moduleToTypeSpecMapper.map(component.providesModules)
         return SpecsForWriter(
             componentTypeSpec,

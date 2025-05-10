@@ -8,20 +8,11 @@ import com.squareup.kotlinpoet.TypeSpec
 import models.Provides
 import models.ProvidesModule
 
-/**
- * Interface for mapping Module objects to KotlinPoet TypeSpec objects.
- */
 interface ModuleToTypeSpecMapper {
     fun map(providesModules: List<ProvidesModule>): List<TypeSpec>
 }
 
 class ModuleToTypeSpecMapperImpl : ModuleToTypeSpecMapper {
-    /**
-     * Maps a list of Module objects to a list of TypeSpec objects.
-     *
-     * @param providesModules The list of Module objects to map
-     * @return A list of TypeSpec objects representing Dagger modules
-     */
     override fun map(providesModules: List<ProvidesModule>): List<TypeSpec> {
         if (providesModules.isEmpty()) {
             return emptyList()
@@ -44,12 +35,6 @@ class ModuleToTypeSpecMapperImpl : ModuleToTypeSpecMapper {
         }
     }
 
-    /**
-     * Creates a provides function for a Dagger module.
-     *
-     * @param provides The Provides object containing the information
-     * @return A FunSpec representing a Dagger @Provides method
-     */
     private fun createProvidesFunction(provides: Provides): FunSpec {
         val funBuilder =
             FunSpec.builder("provides${provides.type.name}")

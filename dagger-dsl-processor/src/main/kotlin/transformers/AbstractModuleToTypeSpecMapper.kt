@@ -11,11 +11,11 @@ import models.Bind
 import javax.inject.Singleton
 
 interface AbstractModuleToTypeSpecMapper {
-    fun map(modules: List<AbstractModule>): List<TypeSpec>
+    fun mapToTypeSpec(modules: List<AbstractModule>): List<TypeSpec>
 }
 
 class AbstractModuleToTypeSpecMapperImpl : AbstractModuleToTypeSpecMapper {
-    override fun map(modules: List<AbstractModule>): List<TypeSpec> {
+    override fun mapToTypeSpec(modules: List<AbstractModule>): List<TypeSpec> {
         return modules.map { module ->
             val moduleBuilder =
                 TypeSpec.classBuilder(module.name)
