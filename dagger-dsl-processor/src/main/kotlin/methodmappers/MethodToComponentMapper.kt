@@ -87,7 +87,7 @@ class MethodToComponentMapperImpl
                         abstractModules.add(abstractModuleMapper.mapToAbstractModule(method.lambdaMethods, resolver))
                     }
 
-                    "module" -> {
+                    "di.module" -> {
                         providesModules.add(moduleMapper.mapModule(method.lambdaMethods, resolver))
                     }
                 }
