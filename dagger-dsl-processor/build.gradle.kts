@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ksp)
@@ -20,7 +22,6 @@ dependencies {
     implementation(libs.mockk)
 
     testImplementation(libs.kotest.runner)
-    api(libs.compilation) // todo https://github.com/AntonButov/dagger-dsl/issues/8
 }
 
 tasks.test {
@@ -37,7 +38,7 @@ tasks.withType<JavaCompile> {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
     }
 }

@@ -37,7 +37,6 @@ fun String.findFunctions(): List<Method> {
                     )
                 }
                 is KtNamedFunction -> {
-                    println("function: $it")
                     it.toMethod()
                 }
                 else -> null
@@ -58,7 +57,6 @@ private fun String.declarations(): List<KtDeclaration> {
  * Converts a KtNamedFunction to a Method object
  */
 private fun KtNamedFunction.toMethod(): Method {
-    println("name: ${nameIdentifier?.text}")
     val bodyExpression =
         bodyExpression as? KtBlockExpression ?: return Method(
             name = nameIdentifier?.text ?: "",
