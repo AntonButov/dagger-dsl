@@ -2,6 +2,9 @@
 
 # Dagger DSL
 
+[![Apache 2 License](https://img.shields.io/github/license/AntonButov/dagger-dsl)](https://github.com/AntonButov/dagger-dsl/blob/trunk/LICENSE)
+![Github Actions](https://github.com/AntonButov/dagger-dsl/actions/workflows/unit_tests_start.yml/badge.svg)
+
 KSP processor that generates Dagger structured files.
 
 ![](./images/simple-case.png)
