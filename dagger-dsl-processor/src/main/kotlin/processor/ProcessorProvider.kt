@@ -3,6 +3,8 @@ package processor
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
+import environmentModule
+import module
 import org.koin.core.context.GlobalContext.startKoin
 
 class ProcessorProvider : SymbolProcessorProvider {

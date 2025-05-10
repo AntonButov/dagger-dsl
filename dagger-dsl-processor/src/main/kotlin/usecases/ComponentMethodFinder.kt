@@ -1,7 +1,7 @@
 package usecases
 
 import psiUtils.Method
-import psiUtils.findFunctions
+import psiUtils.toMethods
 import java.io.File
 
 interface ComponentMethodFinder {
@@ -12,7 +12,7 @@ class ComponentMethodFinderImpl() : ComponentMethodFinder {
     override fun mapComponent(dslFun: DaggerDslFunction): Method {
         val code = File(dslFun.containingFile.filePath).readText()
         return code
-            .findFunctions()
+            .toMethods()
             .first { it.name == dslFun.nameFun }
             .lambdaMethods
             .firstOrNull() ?: error("Component not found")

@@ -12,11 +12,9 @@ mockk = "1.14.2"
 gradle-tester = "1.1.0"
 koin = "3.5.6"
 vanniktech="0.31.0"
-ktor = "2.3.7"
-kapt = "2.1.20"
+jacoco = "0.8.11"
 
 [libraries]
-kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest"}
 kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 compilation = { module = "com.github.antonbutov:compilation", version.ref = "compilation" }
 gradle-tester = { module = "com.github.antonbutov:gradle-tester", version.ref = "gradle-tester" }

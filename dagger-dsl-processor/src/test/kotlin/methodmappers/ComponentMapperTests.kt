@@ -37,7 +37,7 @@ class ComponentMapperTests : BehaviorSpec({
                     name = "component",
                     genericTypes = listOf("SomeComponent"),
                 )
-            val component = methodToComponentMapper.mapComponent(componentMethod, resolver)
+            val component = methodToComponentMapper.mapToComponent(componentMethod, resolver)
             Then("Get component") {
                 component.name shouldBe "Component"
                 component.componentType.name shouldBe "SomeComponent"
@@ -52,7 +52,7 @@ class ComponentMapperTests : BehaviorSpec({
                     genericTypes = listOf("SomeComponent"),
                 )
             val component =
-                methodToComponentMapper.mapComponent(componentMethod, resolver)
+                methodToComponentMapper.mapToComponent(componentMethod, resolver)
 
             Then("Have component singleton") {
                 component.isSingleton shouldBe true

@@ -1,6 +1,20 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ksp)
+    jacoco
+}
+
+jacoco {
+    toolVersion = libs.versions.jacoco.get()
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    dependsOn(tasks.test)
 }
 
 group = "com.dagger.dsl"
@@ -25,6 +39,8 @@ dependencies {
 
 tasks.test {
     dependsOn(":dagger-dsl-core:build")
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.test {

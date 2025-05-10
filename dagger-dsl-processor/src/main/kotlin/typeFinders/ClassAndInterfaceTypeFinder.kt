@@ -3,7 +3,6 @@ package typeFinders
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.ClassKind
 import models.Type
-import usecases.getClassKind
 
 interface ClassAndInterfaceTypeFinder {
     fun findByName(
@@ -18,7 +17,7 @@ class ClassAndInterfaceTypeFinderImpl : ClassAndInterfaceTypeFinder {
         name: String,
     ): Type {
         val declaration =
-            resolver.getClassKind(ClassKind.CLASS, ClassKind.INTERFACE)
+            resolver.getDeclarations(ClassKind.CLASS, ClassKind.INTERFACE)
                 .firstOrNull { it.simpleName.asString() == name } ?: error("Type not found by name: $name")
         return Type(
             name = declaration.simpleName.asString(),

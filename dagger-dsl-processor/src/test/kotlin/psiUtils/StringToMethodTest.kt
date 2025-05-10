@@ -1,12 +1,11 @@
-package processor.psiUtils
+package psiUtils
 
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import psiUtils.findFunctions
 
-class PsiUtilsTest : BehaviorSpec({
+class StringToMethodTest : BehaviorSpec({
     Given("String.findFunctions extension") {
         When("parsing dagger-dsl code") {
             val code =
@@ -25,7 +24,7 @@ class PsiUtilsTest : BehaviorSpec({
                 """.trimIndent()
 
             Then("should correctly parse the DSL structure") {
-                val methods = code.findFunctions()
+                val methods = code.toMethods()
                 methods shouldHaveSize 1
                 val mainFunction = methods[0]
                 mainFunction.name shouldBe "anyNameFunction"
@@ -80,7 +79,7 @@ class PsiUtilsTest : BehaviorSpec({
                 """.trimIndent()
 
             Then("should correctly parse the DSL structure") {
-                val methods = code.findFunctions()
+                val methods = code.toMethods()
                 methods shouldHaveSize 1
                 val mainFunction = methods[0]
                 mainFunction.name shouldBe "component"
@@ -112,7 +111,7 @@ class PsiUtilsTest : BehaviorSpec({
                 implCall.name shouldBe "Impl"
             }
         }
-/*
+
         When("parsing dagger-dsl fun without body") {
             val code =
                 """
@@ -128,7 +127,7 @@ class PsiUtilsTest : BehaviorSpec({
                     }
                 """.trimIndent()
             Then("should correctly parse the DSL structure") {
-                val methods = code.findFunctions()
+                val methods = code.toMethods()
                 methods shouldHaveSize 1
                 val mainFunction = methods[0]
                 mainFunction.name shouldBe "anyNameFunction"
@@ -160,8 +159,5 @@ class PsiUtilsTest : BehaviorSpec({
                 implCall.name shouldBe "Impl"
             }
         }
-
-
- */
     }
 })

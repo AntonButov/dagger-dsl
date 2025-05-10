@@ -16,7 +16,7 @@ class MappersTest : BehaviorSpec({
 
         val abstractModuleToTypeSpecMapper =
             mockk<AbstractModuleToTypeSpecMapper> {
-                every { map(any()) } returns emptyList()
+                every { mapToTypeSpec(any()) } returns emptyList()
             }
         val moduleToTypeSpecMapper =
             mockk<ModuleToTypeSpecMapper> {
@@ -37,7 +37,7 @@ class MappersTest : BehaviorSpec({
                     abstractModules = emptyList(),
                     providesModules = emptyList(),
                 )
-            val specs = mapper.map(component)
+            val specs = mapper.mapToSpecForWriter(component)
             Then("check component generation") {
 
                 specs.componentSpec.toString() shouldBe
@@ -74,7 +74,7 @@ class MappersTest : BehaviorSpec({
                     abstractModules = emptyList(),
                     providesModules = emptyList(),
                 )
-            val specs = mapper.map(component)
+            val specs = mapper.mapToSpecForWriter(component)
             Then("check component generation") {
                 val componentSpec = specs.componentSpec.toString()
                 componentSpec shouldContain "public fun method(): com.example.SomeType"

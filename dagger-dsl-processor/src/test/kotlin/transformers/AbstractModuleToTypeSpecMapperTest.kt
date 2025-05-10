@@ -14,7 +14,7 @@ class AbstractModuleToTypeSpecMapperTest : BehaviorSpec({
         val mapper = AbstractModuleToTypeSpecMapperImpl()
 
         When("Mapping an empty list of modules") {
-            val result = mapper.map(emptyList())
+            val result = mapper.mapToTypeSpec(emptyList())
 
             Then("Should return an empty list") {
                 result shouldHaveSize 0
@@ -38,7 +38,7 @@ class AbstractModuleToTypeSpecMapperTest : BehaviorSpec({
                     binds = listOf(bind),
                 )
 
-            val result = mapper.map(listOf(module))
+            val result = mapper.mapToTypeSpec(listOf(module))
 
             Then("Should generate a module class with the correct name") {
                 result shouldHaveSize 1
@@ -50,7 +50,7 @@ class AbstractModuleToTypeSpecMapperTest : BehaviorSpec({
                 val typeSpec = result[0]
                 typeSpec.modifiers shouldBe setOf(KModifier.ABSTRACT)
                 typeSpec.annotations shouldHaveSize 1
-                typeSpec.annotations[0].className.simpleName shouldBe "Module"
+                typeSpec.annotations[0].typeName.toString() shouldBe "dagger.Module"
             }
 
             Then("Should generate a bind function without @Singleton") {
@@ -60,8 +60,8 @@ class AbstractModuleToTypeSpecMapperTest : BehaviorSpec({
                 val bindFunction = typeSpec.funSpecs[0]
                 bindFunction.name shouldBe "bindTestInterface"
                 bindFunction.modifiers shouldBe setOf(KModifier.ABSTRACT)
-                bindFunction.annotations.any { it.className.simpleName == "Binds" } shouldBe true
-                bindFunction.annotations.any { it.className.simpleName == "Singleton" } shouldBe false
+                bindFunction.annotations.any { it.typeName.toString() == "dagger.Binds" } shouldBe true
+                bindFunction.annotations.any { it.typeName.toString() == "dagger.Singleton" } shouldBe false
             }
         }
 
@@ -82,12 +82,12 @@ class AbstractModuleToTypeSpecMapperTest : BehaviorSpec({
                     binds = listOf(bind),
                 )
 
-            val result = mapper.map(listOf(module))
+            val result = mapper.mapToTypeSpec(listOf(module))
 
             Then("Should generate a bind function with @Singleton") {
                 val typeSpec = result[0]
                 val bindFunction = typeSpec.funSpecs[0]
-                bindFunction.annotations.any { it.className.simpleName == "Singleton" } shouldBe true
+                bindFunction.annotations.any { "Singleton" in it.typeName.toString() } shouldBe true
             }
         }
 
@@ -120,7 +120,7 @@ class AbstractModuleToTypeSpecMapperTest : BehaviorSpec({
                     binds = listOf(bind2),
                 )
 
-            val result = mapper.map(listOf(module1, module2))
+            val result = mapper.mapToTypeSpec(listOf(module1, module2))
 
             Then("Should generate multiple module classes") {
                 result shouldHaveSize 2
@@ -153,7 +153,7 @@ class AbstractModuleToTypeSpecMapperTest : BehaviorSpec({
                     binds = listOf(bind1, bind2),
                 )
 
-            val result = mapper.map(listOf(module))
+            val result = mapper.mapToTypeSpec(listOf(module))
 
             Then("Should generate a module with multiple bind functions") {
                 val typeSpec = result[0]

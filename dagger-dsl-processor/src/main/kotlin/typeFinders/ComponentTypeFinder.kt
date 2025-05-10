@@ -7,7 +7,6 @@ import models.ComponentType
 import models.ComponentTypeMethod
 import models.Param
 import models.Type
-import usecases.getClassKind
 
 interface ComponentTypeFinder {
     fun findByName(
@@ -21,7 +20,7 @@ class ComponentTypeFinderImpl : ComponentTypeFinder {
         resolver: Resolver,
         name: String,
     ): ComponentType {
-        val symbol = resolver.getClassKind(ClassKind.INTERFACE).first { it.simpleName.asString() == name }
+        val symbol = resolver.getDeclarations(ClassKind.INTERFACE).first { it.simpleName.asString() == name }
         val functionSymbols = symbol.getDeclaredFunctions()
 
         val methods =

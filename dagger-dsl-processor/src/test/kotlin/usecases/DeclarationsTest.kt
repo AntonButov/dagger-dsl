@@ -7,7 +7,7 @@ import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtDeclaration
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtProperty
-import readers.PsiFileCreatorImpl
+import psiUtils.PsiFileCreatorImpl
 
 /**
  * Utility function to parse Kotlin code and get declarations
