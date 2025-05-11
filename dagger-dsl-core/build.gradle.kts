@@ -2,7 +2,7 @@ import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.vanniktech)
+    alias(libs.plugins.vanniktech) apply true
 }
 
 group = "io.github.antonbutov"
@@ -21,11 +21,9 @@ mavenPublishing {
         version = project.version.toString(),
     )
 
-    mavenPublishing {
-        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-        if (project.findProperty("signing") == "true") {
-            signAllPublications()
-        }
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    if (project.findProperty("signing") == "true") {
+        signAllPublications()
     }
 
     pom {
