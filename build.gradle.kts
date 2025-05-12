@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktlint) apply true
+    alias(libs.plugins.vanniktech) apply false
 }
 private val ktLintConfig: org.jlleitschuh.gradle.ktlint.KtlintExtension.() -> Unit = {
     debug.set(false)
