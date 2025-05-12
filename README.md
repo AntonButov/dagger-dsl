@@ -24,8 +24,8 @@ plugins {
 ```
 ```kotlin
 dependencies {
-    ksp("com.github.antonbutov:dagger-dsl-processor:<$last-version>")
-    implementation("com.github.antonbutov:dagger-dsl-core:<$last-version>")
+    ksp("com.github.antonbutov:dagger-dsl-processor:1.0.0-alpha")
+    implementation("com.github.antonbutov:dagger-dsl-core:1.0.0-alpha")
     implementation("com.google.dagger:dagger:2.x")
     kapt("com.google.dagger:dagger-compiler:2.x")
 }
@@ -47,4 +47,3 @@ Quick start:
 - Open a Pull Request — I’ll review it asap (with a little help from CodeRabbit 🐰)
 
 Feel free to open an Issue if you’re not sure where to start.
-Let’s make this DSL awesome together!
