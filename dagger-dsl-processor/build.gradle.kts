@@ -36,12 +36,8 @@ mavenPublishing {
     }
 
     pom {
-        name.set("Dagger DSL processor.")
+        name.set("Dagger DSL core.")
         description.set("Dagger DSL.")
-        url.set("https://github.com/AntonButov/dagger-dsl-processor")
-        scm {
-            url.set("https://github.com/AntonButov/dagger-dsl-processor")
-        }
         licenses {
             license {
                 name.set("The Apache License, Version 2.0")
@@ -56,9 +52,9 @@ mavenPublishing {
             }
         }
         scm {
-            connection.set("scm:git:git://github.com/AntonButov/dagger-dsl-processor.git")
-            developerConnection.set("scm:git:ssh://git@github.com:AntonButov/dagger-dsl-processor.git")
-            url.set("https://github.com/AntonButov/dagger-dsl-processor")
+            connection.set("scm:git:git://github.com/AntonButov/dagger-dsl-core.git")
+            developerConnection.set("scm:git:ssh://git@github.com:AntonButov/dagger-dsl-core.git")
+            url.set("https://github.com/AntonButov/dagger-dsl-core")
         }
     }
 }
