@@ -4,6 +4,7 @@
 
 [![Apache 2 License](https://img.shields.io/github/license/AntonButov/dagger-dsl)](https://github.com/AntonButov/dagger-dsl/blob/trunk/LICENSE)
 ![Github Actions](https://github.com/AntonButov/dagger-dsl/actions/workflows/unit_tests_start.yml/badge.svg)
+![Maven Central](https://img.shields.io/maven-central/v/io.github.antonbutov/dagger-dsl-core)
 
 KSP processor that generates Dagger structured files.
 
@@ -13,13 +14,12 @@ KSP processor that generates Dagger structured files.
 ```kotlin
 repositories {
     mavenCentral()
-    maven { url = uri("https://jitpack.io") }
 }
 ```
 ```kotlin
 plugins {
-    id("com.google.devtools.ksp") version "1.9.24-1.0.20"
-    id ("kotlin-kapt")
+    id("com.google.devtools.ksp") version "2.1.20-2.0.1"
+    id ("kotlin-kapt") version "2.1.20"
 }
 ```
 ```kotlin

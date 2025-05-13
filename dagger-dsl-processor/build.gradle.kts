@@ -21,7 +21,7 @@ tasks.jacocoTestReport {
 }
 
 group = "io.github.antonbutov"
-version = libs.versions.core.get()
+version = libs.versions.version.get()
 
 mavenPublishing {
     coordinates(
@@ -62,7 +62,6 @@ mavenPublishing {
 
 dependencies {
     implementation(project(":dagger-dsl-core"))
-    ksp(libs.code.factory)
     implementation(libs.ksp)
     implementation(libs.compile.embedded)
     implementation(kotlin("stdlib"))
@@ -74,7 +73,7 @@ dependencies {
     implementation(libs.mockk)
 
     testImplementation(libs.kotest.runner)
-    api(libs.compilation) // todo https://github.com/AntonButov/dagger-dsl/issues/8
+    testImplementation(libs.compilation)
 }
 
 tasks.test {
