@@ -30,9 +30,6 @@ mavenPublishing {
         name.set("Dagger DSL core.")
         description.set("Dagger DSL.")
         url.set("https://github.com/AntonButov/dagger-dsl-core")
-        scm {
-            url.set("https://github.com/AntonButov/dagger-dsl-core")
-        }
         licenses {
             license {
                 name.set("The Apache License, Version 2.0")
