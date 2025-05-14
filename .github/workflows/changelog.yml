@@ -1,0 +1,36 @@
+name: Changelog Generator
+
+# Conventional Commits Types:
+# - feat:     New feature for the user
+# - fix:      Bug fix
+# - docs:     Changes to documentation
+# - style:    Formatting, missing semi colons, etc
+# - refactor: Refactoring production code
+# - test:     Adding tests, refactoring test
+# - chore:    Updating build tasks, package manager configs, etc
+
+on:
+  push:
+    branches:
+      - trunk
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get Version
+        id: get_version
+        run: |
+          version=$(grep "^version =" gradle/libs.versions.toml | cut -d'"' -f2)
+          echo "VERSION=$version" >> $GITHUB_OUTPUT
+      - name: Generate Changelog
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          output-file: "CHANGELOG.md"
+          tag-prefix: 'v'
+          version: ${{ steps.get_version.outputs.VERSION }}

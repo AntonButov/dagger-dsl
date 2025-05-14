@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.antonbutov"
-version = libs.versions.core.get()
+version = libs.versions.version.get()
 
 dependencies {
     implementation(kotlin("stdlib"))
