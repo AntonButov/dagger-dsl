@@ -10,6 +10,8 @@ import methodmappers.MethodToComponentMapper
 import methodmappers.MethodToComponentMapperImpl
 import methodmappers.ModuleMapper
 import methodmappers.ModuleMapperImpl
+import methodmappers.ModulesMapper
+import methodmappers.ModulesMapperImpl
 import org.koin.dsl.module
 import processor.Processor
 import transformers.AbstractModuleToTypeSpecMapper
@@ -50,9 +52,10 @@ val module =
         factory<ComponentToFileSpecMapper> { ComponentToFileSpecMapperImpl(get(), get()) }
         factory<Writer> { WriterImpl(get()) }
         factory<AbstractModuleMapper> { AbstractModuleMapperImpl(get(), get()) }
-        single<ModuleMapper> { ModuleMapperImpl(get()) }
+        factory<ModuleMapper> { ModuleMapperImpl(get()) }
+        factory<ModulesMapper> { ModulesMapperImpl(get(), get()) }
         factory<MethodToComponentMapper> {
-            MethodToComponentMapperImpl(get(), get(), get())
+            MethodToComponentMapperImpl(get(), get(), get(), get())
         }
         factory<ComponentTypeFinder> { ComponentTypeFinderImpl() }
         factory<ComponentMethodFinder> { ComponentMethodFinderImpl() }

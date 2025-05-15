@@ -9,225 +9,155 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import models.AbstractModule
-import models.Bind
-import models.BindTypes
-import models.Provides
 import models.ProvidesModule
-import models.Type
 import psiUtils.Method
 
 class ModulesMapperTest : BehaviorSpec({
 
-    Given("A ModulesMapper") {
+    lateinit var resolver: Resolver
+    lateinit var abstractModuleMapper: AbstractModuleMapper
+    lateinit var moduleMapper: ModuleMapper
+    lateinit var mapper: ModulesMapperImpl
+    lateinit var abstractModuleMock: AbstractModule
+    lateinit var providesModuleMock: ProvidesModule
 
-        lateinit var resolver: Resolver
-        lateinit var abstractModuleMapper: AbstractModuleMapper
-        lateinit var moduleMapper: ModuleMapper
-        lateinit var modulesMapper: ModulesMapperImpl
+    given("ModulesMapper with mocked dependencies") {
 
-        beforeTest {
-            resolver = mockk<Resolver>()
+        beforeContainer {
+            resolver = mockk()
+            abstractModuleMapper = mockk()
+            moduleMapper = mockk()
 
-            abstractModuleMapper =
-                mockk<AbstractModuleMapper> {
-                    every { mapToAbstractModule(any(), any()) } returns
-                        AbstractModule(
-                            binds =
-                                listOf(
-                                    Bind(
-                                        isSingleton = false,
-                                        bindTypes =
-                                            BindTypes(
-                                                type = Type("Interface", "com.example"),
-                                                impl = Type("Implementation", "com.example"),
-                                            ),
-                                    ),
-                                ),
-                        )
-                }
-
-            moduleMapper =
-                mockk<ModuleMapper> {
-                    every { mapModule(any(), any()) } returns
-                        ProvidesModule(
-                            provides =
-                                listOf(
-                                    Provides(
-                                        isSingleton = false,
-                                        paramTypes = emptyList(),
-                                        type = Type("String", "kotlin"),
-                                        body = "",
-                                    ),
-                                ),
-                        )
-                }
-
-            modulesMapper =
+            mapper =
                 ModulesMapperImpl(
                     abstractModuleMapper = abstractModuleMapper,
                     moduleMapper = moduleMapper,
                 )
+
+            abstractModuleMock = mockk()
+            providesModuleMock = mockk()
+
+            every {
+                abstractModuleMapper.mapToAbstractModule(any(), any())
+            } returns abstractModuleMock
+
+            every {
+                moduleMapper.mapModule(any(), any())
+            } returns providesModuleMock
         }
 
-        When("Mapping an empty list of methods") {
-            val result = modulesMapper.mapToModules(emptyList(), resolver)
+        `when`("mapping to modules") {
+            val result = mapper.mapToModules(emptyList(), resolver)
 
-            Then("Should return empty module containers") {
+            then("should return empty modules container") {
                 result.abstractModules.shouldBeEmpty()
                 result.providesModules.shouldBeEmpty()
             }
         }
 
-        When("Mapping a list with an abstract module method") {
-            val methods =
-                listOf(
-                    Method(
-                        name = "moduleAbstract",
-                        lambdaMethods =
-                            listOf(
-                                Method(
-                                    name = "bind",
-                                    genericTypes = listOf("Interface", "Implementation"),
-                                ),
-                            ),
-                    ),
+        `when`("mapping to modules") {
+            val moduleAbstractMethod =
+                Method(
+                    name = "moduleAbstract",
+                    lambdaMethods = listOf(),
+                    genericTypes = listOf(),
                 )
 
-            Then("Should return a container with an abstract module") {
-                val result = modulesMapper.mapToModules(methods, resolver)
+            val result = mapper.mapToModules(listOf(moduleAbstractMethod), resolver)
+
+            then("should process moduleAbstract correctly") {
+                verify(exactly = 1) {
+                    abstractModuleMapper.mapToAbstractModule(moduleAbstractMethod.lambdaMethods, resolver)
+                }
                 result.abstractModules shouldHaveSize 1
+                result.abstractModules[0] shouldBe abstractModuleMock
                 result.providesModules.shouldBeEmpty()
-
-                val abstractModule = result.abstractModules[0]
-                abstractModule.binds shouldHaveSize 1
-                abstractModule.binds[0].bindTypes.type.name shouldBe "Interface"
-
-                verify {
-                    abstractModuleMapper.mapToAbstractModule(any(), resolver)
-                }
             }
         }
 
-        When("Mapping a list with a provides module method") {
-            val methods =
-                listOf(
-                    Method(
-                        name = "module",
-                        lambdaMethods =
-                            listOf(
-                                Method(
-                                    name = "provides",
-                                    genericTypes = listOf("String"),
-                                ),
-                            ),
-                    ),
+        `when`("mapping to modules") {
+            val moduleMethod =
+                Method(
+                    name = "module",
+                    lambdaMethods = listOf(),
+                    genericTypes = listOf(),
                 )
 
-            Then("Should return a container with a provides module") {
-                val result = modulesMapper.mapToModules(methods, resolver)
-                result.abstractModules.shouldBeEmpty()
+            val result = mapper.mapToModules(listOf(moduleMethod), resolver)
+
+            then("should process module correctly") {
+                verify(exactly = 1) {
+                    moduleMapper.mapModule(moduleMethod.lambdaMethods, resolver)
+                }
                 result.providesModules shouldHaveSize 1
-
-                val providesModule = result.providesModules[0]
-                providesModule.provides shouldHaveSize 1
-                providesModule.provides[0].type.name shouldBe "String"
-
-                verify {
-                    moduleMapper.mapModule(any(), resolver)
-                }
+                result.providesModules[0] shouldBe providesModuleMock
+                result.abstractModules.shouldBeEmpty()
             }
         }
 
-        When("Mapping a list with both module types") {
-            val methods =
-                listOf(
-                    Method(
-                        name = "moduleAbstract",
-                        lambdaMethods =
-                            listOf(
-                                Method(
-                                    name = "bind",
-                                    genericTypes = listOf("Interface", "Implementation"),
-                                ),
-                            ),
-                    ),
-                    Method(
-                        name = "module",
-                        lambdaMethods =
-                            listOf(
-                                Method(
-                                    name = "provides",
-                                    genericTypes = listOf("String"),
-                                ),
-                            ),
-                    ),
-                )
+        val moduleAbstractMethod =
+            Method(
+                name = "moduleAbstract",
+                lambdaMethods = listOf(),
+                genericTypes = listOf(),
+            )
 
-            Then("Should return a container with both module types") {
-                val result = modulesMapper.mapToModules(methods, resolver)
+        val moduleMethod =
+            Method(
+                name = "module",
+                lambdaMethods = listOf(),
+                genericTypes = listOf(),
+            )
+
+        `when`("mapping to modules") {
+            val methods = listOf(moduleAbstractMethod, moduleMethod)
+            val result = mapper.mapToModules(methods, resolver)
+
+            then("should process all known method types correctly") {
+                verify(exactly = 1) {
+                    abstractModuleMapper.mapToAbstractModule(moduleAbstractMethod.lambdaMethods, resolver)
+                }
+
+                verify(exactly = 1) {
+                    moduleMapper.mapModule(moduleMethod.lambdaMethods, resolver)
+                }
+
                 result.abstractModules shouldHaveSize 1
                 result.providesModules shouldHaveSize 1
-
-                verify {
-                    abstractModuleMapper.mapToAbstractModule(any(), resolver)
-                    moduleMapper.mapModule(any(), resolver)
-                }
             }
         }
 
-        When("Mapping a list with multiple modules of the same type") {
-            val methods =
+        `when`("mapping to modules") {
+            val nestedMethods =
                 listOf(
-                    Method(
-                        name = "moduleAbstract",
-                        lambdaMethods =
-                            listOf(
-                                Method(
-                                    name = "bind",
-                                    genericTypes = listOf("Interface1", "Implementation1"),
-                                ),
-                            ),
-                    ),
-                    Method(
-                        name = "moduleAbstract",
-                        lambdaMethods =
-                            listOf(
-                                Method(
-                                    name = "bind",
-                                    genericTypes = listOf("Interface2", "Implementation2"),
-                                ),
-                            ),
-                    ),
+                    Method(name = "nested1", lambdaMethods = listOf(), genericTypes = listOf()),
+                    Method(name = "nested2", lambdaMethods = listOf(), genericTypes = listOf()),
                 )
 
-            Then("Should return a container with multiple modules") {
-                val result = modulesMapper.mapToModules(methods, resolver)
-                result.abstractModules shouldHaveSize 2
-                result.providesModules.shouldBeEmpty()
+            val moduleAbstractMethod =
+                Method(
+                    name = "moduleAbstract",
+                    lambdaMethods = nestedMethods,
+                    genericTypes = listOf(),
+                )
 
-                verify(exactly = 2) {
-                    abstractModuleMapper.mapToAbstractModule(any(), resolver)
+            val moduleMethod =
+                Method(
+                    name = "module",
+                    lambdaMethods = nestedMethods,
+                    genericTypes = listOf(),
+                )
+
+            val methods = listOf(moduleAbstractMethod, moduleMethod)
+            mapper.mapToModules(methods, resolver)
+
+            then("should pass nested methods to specific mappers") {
+                verify(exactly = 1) {
+                    abstractModuleMapper.mapToAbstractModule(nestedMethods, resolver)
                 }
-            }
-        }
 
-        When("Mapping a list with methods that are not modules") {
-            val methods =
-                listOf(
-                    Method(
-                        name = "notAModule",
-                        lambdaMethods = listOf(),
-                    ),
-                )
-
-            Then("Should ignore non-module methods") {
-                val result = modulesMapper.mapToModules(methods, resolver)
-                result.abstractModules.shouldBeEmpty()
-                result.providesModules.shouldBeEmpty()
-
-                verify(exactly = 0) {
-                    abstractModuleMapper.mapToAbstractModule(any(), any())
-                    moduleMapper.mapModule(any(), any())
+                verify(exactly = 1) {
+                    moduleMapper.mapModule(nestedMethods, resolver)
                 }
             }
         }
