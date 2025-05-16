@@ -1,9 +1,7 @@
 package methodmappers
 
 import com.google.devtools.ksp.processing.Resolver
-import models.AbstractModule
 import models.Component
-import models.ProvidesModule
 import org.jetbrains.kotlin.javax.inject.Inject
 import psiUtils.Method
 import typeFinders.ComponentTypeFinder
@@ -21,6 +19,7 @@ class MethodToComponentMapperImpl
         private val componentTypeFinder: ComponentTypeFinder,
         private val abstractModuleMapper: AbstractModuleMapper,
         private val moduleMapper: ModuleMapper,
+        private val modulesMapper: ModulesMapper,
     ) : MethodToComponentMapper {
         override fun mapToComponent(
             method: Method,
@@ -56,7 +55,9 @@ class MethodToComponentMapperImpl
                 method.genericTypes.firstOrNull()
                     ?: error("Component method must have at least one generic type")
             val componentType = componentTypeFinder.findByName(resolver, componentTypeName)
-            val modulesClassicWay = mapToModules(method.lambdaMethods, resolver)
+
+            val modulesClassicWay = modulesMapper.mapToModules(method.lambdaMethods, resolver)
+
             val rootAbstractModules = abstractModuleMapper.mapToAbstractModule(method.lambdaMethods, resolver)
             val rootProvidesModules = moduleMapper.mapModule(method.lambdaMethods, resolver)
             val resultAbstractModules =
@@ -74,29 +75,4 @@ class MethodToComponentMapperImpl
                 providesModules = resultProvidesModules,
             )
         }
-
-        private fun mapToModules(
-            methods: List<Method>,
-            resolver: Resolver,
-        ): ModulesContainer {
-            val abstractModules = mutableListOf<AbstractModule>()
-            val providesModules = mutableListOf<ProvidesModule>()
-            methods.forEach { method ->
-                when (method.name) {
-                    "moduleAbstract" -> {
-                        abstractModules.add(abstractModuleMapper.mapToAbstractModule(method.lambdaMethods, resolver))
-                    }
-
-                    "di.module" -> {
-                        providesModules.add(moduleMapper.mapModule(method.lambdaMethods, resolver))
-                    }
-                }
-            }
-            return ModulesContainer(abstractModules, providesModules)
-        }
-
-        private class ModulesContainer(
-            val abstractModules: List<AbstractModule>,
-            val providesModules: List<ProvidesModule>,
-        )
     }
