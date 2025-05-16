@@ -34,3 +34,17 @@ jobs:
           output-file: "CHANGELOG.md"
           tag-prefix: 'v'
           version: ${{ steps.get_version.outputs.VERSION }}
+
+      - name: Create Git Tag
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          
+          # Delete existing tag if it exists
+          git tag -d v${{ steps.get_version.outputs.VERSION }} || true
+          git push origin :refs/tags/v${{ steps.get_version.outputs.VERSION }} || true
+          
+          # Create new tag
+          git tag -a v${{ steps.get_version.outputs.VERSION }} -m "Release v${{ steps.get_version.outputs.VERSION }}"
+          git push origin v${{ steps.get_version.outputs.VERSION }}
+          git-push: false  # Prevent automatic pushing of tags
