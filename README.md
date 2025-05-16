@@ -5,6 +5,7 @@
 [![Apache 2 License](https://img.shields.io/github/license/AntonButov/dagger-dsl)](https://github.com/AntonButov/dagger-dsl/blob/trunk/LICENSE)
 ![Github Actions](https://github.com/AntonButov/dagger-dsl/actions/workflows/unit_tests_start.yml/badge.svg)
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.antonbutov/dagger-dsl-core)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AntonButov/dagger-dsl)
 
 KSP processor that generates Dagger structured files.
 
