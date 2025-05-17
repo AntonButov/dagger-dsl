@@ -25,8 +25,8 @@ plugins {
 ```
 ```kotlin
 dependencies {
-    ksp("io.github.antonbutov:dagger-dsl-processor:1.0.0-alpha")
-    implementation("io.github.antonbutov:dagger-dsl-core:1.0.0-alpha")
+    ksp("io.github.antonbutov:dagger-dsl-processor:1.1.0-alpha")
+    implementation("io.github.antonbutov:dagger-dsl-core:1.1.0-alpha")
     implementation("com.google.dagger:dagger:2.x")
     kapt("com.google.dagger:dagger-compiler:2.x")
 }
