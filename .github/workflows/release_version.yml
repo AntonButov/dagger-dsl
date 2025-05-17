@@ -29,10 +29,10 @@ jobs:
           cp README.md README.tmp
           
           while IFS= read -r line; do
-            if [[ $line == *"com.github.antonbutov:dagger-dsl-processor"* ]]; then
-              echo '    ksp("com.github.antonbutov:dagger-dsl-processor:'$VERSION'")' >> README.md.new
-            elif [[ $line == *"com.github.antonbutov:dagger-dsl-core"* ]]; then
-              echo '    implementation("com.github.antonbutov:dagger-dsl-core:'$VERSION'")' >> README.md.new
+            if [[ $line == *"io.github.antonbutov:dagger-dsl-processor"* ]]; then
+              echo '    ksp("io.github.antonbutov:dagger-dsl-processor:'$VERSION'")' >> README.md.new
+            elif [[ $line == *"io.github.antonbutov:dagger-dsl-core"* ]]; then
+              echo '    implementation("io.github.antonbutov:dagger-dsl-core:'$VERSION'")' >> README.md.new
             else
               echo "$line" >> README.md.new
             fi
