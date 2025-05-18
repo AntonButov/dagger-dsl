@@ -1,11 +1,10 @@
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/AntonButov/dagger-dsl?utm_source=oss&utm_medium=github&utm_campaign=AntonButov%2Fdagger-dsl&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
-
-# Dagger DSL
-
 [![Apache 2 License](https://img.shields.io/github/license/AntonButov/dagger-dsl)](https://github.com/AntonButov/dagger-dsl/blob/trunk/LICENSE)
 ![Github Actions](https://github.com/AntonButov/dagger-dsl/actions/workflows/unit_tests_start.yml/badge.svg)
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.antonbutov/dagger-dsl-core)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AntonButov/dagger-dsl)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/AntonButov/dagger-dsl?utm_source=oss&utm_medium=github&utm_campaign=AntonButov%2Fdagger-dsl&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+
+# Dagger DSL
 
 KSP processor that generates Dagger structured files.
 
