@@ -9,7 +9,7 @@ kotlinPoet = "1.18.0"
 dagger = "2.56.2"
 mockk = "1.14.2"
 gradle-tester = "1.1.0"
-koin = "3.5.6"
+koin = "4.1.0"
 vanniktech="0.32.0"
 jacoco = "0.8.11"
 
