@@ -2,7 +2,7 @@
 
 ## [1.2.0-alpha] - 2025-05-17
 ### Fixes
-- When change one file had problem https://github.com/AntonButov/dagger-dsl/issues/91
+- Fix issue when changing a single file ([#91](https://github.com/AntonButov/dagger-dsl/issues/91))
 
 ## [1.1.0-alpha] - 2025-05-17
 ### Fixes
