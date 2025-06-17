@@ -42,7 +42,7 @@ class WriterImpl(private val codeGenerator: CodeGenerator) : Writer {
             .build()
             .writeTo(
                 codeGenerator = codeGenerator,
-                dependencies = Dependencies(aggregating = true, sources = arrayOf(file)),
+                dependencies = Dependencies.ALL_FILES,
             )
     }
 
@@ -58,7 +58,7 @@ class WriterImpl(private val codeGenerator: CodeGenerator) : Writer {
             .build()
             .writeTo(
                 codeGenerator = codeGenerator,
-                dependencies = Dependencies(aggregating = true, sources = arrayOf(file)),
+                dependencies = Dependencies.ALL_FILES,
             )
     }
 }
