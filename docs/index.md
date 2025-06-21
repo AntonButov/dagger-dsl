@@ -2,7 +2,7 @@
 
 Dagger DSL is a Kotlin Symbol Processing (KSP) tool that simplifies dependency injection with Dagger by providing a clean, concise Domain-Specific Language (DSL). It generates the necessary Dagger boilerplate code from your high-level DSL declarations, making dependency injection setup more intuitive and less error-prone.
 
-![](./images/simple-case.png)
+![](/images/simple-case.png)
 
 ## How It Works
 
