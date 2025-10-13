@@ -1,7 +1,7 @@
 [versions]
 version = "1.2.0-alpha"
 kotlin = "1.9.25"
-ksp = "1.9.25-1.0.20"
+ksp = "2.2.20-2.0.4"
 kotest = "5.9.1"
 compilation = "2.6.0"
 ktlint = "12.3.0"
